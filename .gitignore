@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Environments
+.env
+.venv/
+venv/
+
+# Data and models
+data/raw/*
+data/interim/*
+data/processed/*
+data/splits/*
+models/
+checkpoints/
+outputs/
+
+# Keep empty folder markers
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/splits/.gitkeep
+
+# Results that may be large
+results/model_outputs/*
+!results/model_outputs/.gitkeep
+
+# Hugging Face / W&B
+.cache/
+wandb/
