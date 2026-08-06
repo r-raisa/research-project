@@ -1,0 +1,66 @@
+name: llm-therapy
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip=24.0
+
+  - pip:
+    # Core ML / LLM stack
+    - torch==2.2.0
+    - transformers==4.40.0
+    - datasets==2.19.0
+    - tokenizers==0.19.0
+    - accelerate==0.29.0
+    - peft==0.10.0
+    - trl==0.8.6
+    - safetensors==0.4.3
+    - huggingface-hub==0.22.2
+
+    # Tokenizer/model compatibility
+    - sentencepiece==0.2.0
+    - protobuf==4.25.3
+    - tiktoken==0.6.0
+    - einops==0.7.0
+
+    # Evaluation metrics
+    - evaluate==0.4.2
+    - bert-score==0.3.13
+    - nltk==3.8.1
+    - rouge-score==0.1.2
+
+    # Statistics and analysis
+    - numpy==1.26.4
+    - scipy==1.13.0
+    - pandas==2.2.2
+    - scikit-learn==1.4.2
+    - statsmodels==0.14.2
+
+    # Dataset/config handling
+    - pyyaml==6.0.1
+    - jsonlines==4.0.0
+    - python-dotenv==1.0.1
+
+    # Experiment tracking
+    - wandb==0.16.6
+
+    # Notebooks and visualisation
+    - jupyter==1.0.0
+    - ipykernel==6.29.4
+    - ipywidgets==8.1.2
+    - matplotlib==3.8.4
+    - seaborn==0.13.2
+
+    # Utilities
+    - tqdm==4.66.2
+
+    # Code quality
+    - black==24.4.2
+    - ruff==0.4.4
+
+variables:
+  TOKENIZERS_PARALLELISM: "false"
+  PYTORCH_ENABLE_MPS_FALLBACK: "1"
