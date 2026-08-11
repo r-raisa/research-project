@@ -1,32 +1,47 @@
+
 # Python
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-# Environments
+# Environment
 .env
 .venv/
 venv/
+condaenv.*.requirements.txt
 
-# Data and models
+# Hugging Face / caches
+.cache/
+huggingface/
+*.cache
+
+# Experiment tracking
+wandb/
+
+# Data
 data/raw/*
 data/interim/*
 data/processed/*
 data/splits/*
-models/
-checkpoints/
-outputs/
 
-# Keep empty folder markers
+# Keep folder structure
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
 !data/splits/.gitkeep
 
-# Results that may be large
+# Results
 results/model_outputs/*
-!results/model_outputs/.gitkeep
+results/scores/*
+results/tables/*
+results/figures/*
 
-# Hugging Face / W&B
-.cache/
-wandb/
+!results/model_outputs/.gitkeep
+!results/scores/.gitkeep
+!results/tables/.gitkeep
+!results/figures/.gitkeep
+
+# Models/checkpoints
+models/
+checkpoints/
+outputs/
