@@ -1,0 +1,11 @@
+
+
+# Edit this at a later date
+model:
+  name: "to_be_confirmed"
+  hf_id: "to_be_confirmed"
+  reason: "Small open-source instruct model suitable for Apple Silicon local experimentation."
+
+device:
+  prefer_mps: true
+  fallback_cpu: true

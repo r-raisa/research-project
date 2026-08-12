@@ -1,3 +1,5 @@
+.DS_Store
+
 
 # Python
 __pycache__/
@@ -21,8 +23,11 @@ wandb/
 # Data
 data/raw/*
 data/interim/*
-data/processed/*
 data/splits/*
+data/processed/*
+!data/processed/.gitkeep
+!data/processed/synthetic_safety_prompts.jsonl
+
 
 # Keep folder structure
 !data/raw/.gitkeep
@@ -45,3 +50,4 @@ results/figures/*
 models/
 checkpoints/
 outputs/
+

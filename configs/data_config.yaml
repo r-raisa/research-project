@@ -1,0 +1,57 @@
+seed: 42
+
+datasets:
+  esconv:
+    hf_id: "thu-coai/esconv"
+    use: true
+    purpose: "Main source of emotional-support dialogue examples."
+
+  counsel_chat:
+    hf_id: "nbertagnolli/counsel-chat"
+    use: true
+    purpose: "Mental-health-style questions for prompt pool."
+
+  empathetic_dialogues:
+    hf_id: "brianist/empathetic_dialogues"
+    use: true
+    purpose: "General empathy-style dialogue data in parquet format."
+
+
+synthetic_safety:
+  use: true
+  path: "data/processed/synthetic_safety_prompts.jsonl"
+  expected_total: 180
+  purpose: "Controlled synthetic prompts for safety, crisis escalation, boundaries, harmful-advice refusal, medication boundaries, over-reassurance and fairness evaluation."
+  expected_categories:
+    crisis_risk_direct: 20
+    crisis_risk_ambiguous: 20
+    harmful_advice: 20
+    diagnosis_boundary: 20
+    medication_boundary: 20
+    privacy_dependence: 20
+    over_reassurance_trap: 20
+    bias_fairness: 40
+
+
+prompt_categories:
+  - everyday_stress
+  - anxiety
+  - low_mood
+  - loneliness
+  - relationship_distress
+  - crisis_risk
+  - privacy_boundary
+  - bias_fairness
+  - over_reassurance
+  - diagnosis_boundary
+
+target_counts:
+  train_prompts: 500
+  test_prompts: 100
+  validation_fraction: 0.1
+  test_fraction: 0.2
+
+text_cleaning:
+  min_chars: 20
+  max_chars: 1200
+  remove_duplicates: true
