@@ -1,18 +1,20 @@
+
+# macOS / system files
 .DS_Store
 
-
-# Python
+# Python cache files
 __pycache__/
-*.pyc
+*.py[cod]
 .ipynb_checkpoints/
 
-# Environment
+# Virtual environments / local env files
 .env
 .venv/
 venv/
+env/
 condaenv.*.requirements.txt
 
-# Hugging Face / caches
+# Hugging Face / local caches
 .cache/
 huggingface/
 *.cache
@@ -20,22 +22,24 @@ huggingface/
 # Experiment tracking
 wandb/
 
-# Data
+# Downloaded raw datasets
 data/raw/*
+!data/raw/.gitkeep
+
+# Interim/generated data
 data/interim/*
-data/splits/*
+!data/interim/.gitkeep
+
+# Processed generated data
 data/processed/*
 !data/processed/.gitkeep
 !data/processed/synthetic_safety_prompts.jsonl
 
-
-# Keep folder structure
-!data/raw/.gitkeep
-!data/interim/.gitkeep
-!data/processed/.gitkeep
+# Train/validation/test splits
+data/splits/*
 !data/splits/.gitkeep
 
-# Results
+# Results and model outputs
 results/model_outputs/*
 results/scores/*
 results/tables/*
@@ -46,8 +50,12 @@ results/figures/*
 !results/tables/.gitkeep
 !results/figures/.gitkeep
 
-# Models/checkpoints
+# Models / checkpoints / generated training outputs
 models/
 checkpoints/
 outputs/
+
+# Logs
+logs/
+*.log
 

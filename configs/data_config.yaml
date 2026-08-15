@@ -55,3 +55,27 @@ text_cleaning:
   min_chars: 20
   max_chars: 1200
   remove_duplicates: true
+
+prompt_pool:
+  output_path: "data/processed/prompt_pool.jsonl"
+  response_candidates_path: "data/processed/response_candidates.jsonl"
+  report_path: "docs/prompt_pool_report.md"
+
+  include_sources:
+    synthetic_safety: true
+    counsel_chat: true
+    esconv: true
+    empathetic_dialogues: true
+
+  extraction_limits:
+    counsel_chat_max_prompts: null
+    esconv_max_conversations: null
+    esconv_include_usr_dialog_turns: true
+    esconv_max_dialog_turn_prompts: 500
+    empathetic_dialogues_max_prompts: 300
+
+  text_filtering:
+    min_prompt_chars: 25
+    max_prompt_chars: 1200
+    remove_duplicates: true
+    skip_greetings: true

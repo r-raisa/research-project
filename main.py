@@ -1,5 +1,5 @@
 """
-Project entry point for the LLM therapy post-training project.
+Entry point for the LLM therapy post-training project.
 
 
 Run stages from the project root using:
@@ -16,6 +16,10 @@ from src.data_pipeline import (
     create_synthetic_safety_report,
     add_synthetic_safety_to_prompt_pool,
     prepare_synthetic_safety,
+    build_prompt_pool,
+    validate_prompt_pool,
+    create_prompt_pool_report,
+    prepare_prompt_pool,
 )
 
 
@@ -29,6 +33,10 @@ STAGES = [
     "report_synthetic_safety",
     "add_synthetic_to_prompt_pool",
     "prepare_synthetic_safety",
+    "build_prompt_pool",
+    "validate_prompt_pool",
+    "report_prompt_pool",
+    "prepare_prompt_pool",
     "prepare_data",
     "all",
 ]
@@ -71,13 +79,23 @@ def main():
     elif args.stage == "prepare_synthetic_safety":
         prepare_synthetic_safety(PROJECT_ROOT)
 
+    elif args.stage == "build_prompt_pool":
+        build_prompt_pool(PROJECT_ROOT)
+
+    elif args.stage == "validate_prompt_pool":
+        validate_prompt_pool(PROJECT_ROOT)
+
+    elif args.stage == "report_prompt_pool":
+        create_prompt_pool_report(PROJECT_ROOT)
+
+    elif args.stage == "prepare_prompt_pool":
+        prepare_prompt_pool(PROJECT_ROOT)
+
     elif args.stage == "prepare_data":
-        # Public downloaded datasets only. 
         download_data(PROJECT_ROOT)
         inspect_data(PROJECT_ROOT)
 
     elif args.stage == "all":
-        # Conservative full public-data check. 
         download_data(PROJECT_ROOT)
         inspect_data(PROJECT_ROOT)
         prepare_synthetic_safety(PROJECT_ROOT)
