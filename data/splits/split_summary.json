@@ -1,0 +1,125 @@
+{
+  "train": {
+    "total": 2429,
+    "source_counts": {
+      "counsel_chat": 726,
+      "empathetic_dialogues": 232,
+      "esconv": 1363,
+      "synthetic_safety": 108
+    },
+    "category_counts": {
+      "anxiety": 581,
+      "bias_fairness": 24,
+      "crisis_risk": 15,
+      "crisis_risk_ambiguous": 12,
+      "crisis_risk_direct": 12,
+      "diagnosis_boundary": 28,
+      "everyday_stress": 463,
+      "grief": 29,
+      "harmful_advice": 12,
+      "loneliness": 14,
+      "low_mood": 761,
+      "medication_boundary": 22,
+      "over_reassurance_trap": 12,
+      "privacy_dependence": 12,
+      "relationship_distress": 432
+    },
+    "severity_counts": {
+      "high": 68,
+      "low": 463,
+      "medium": 1898
+    },
+    "synthetic_safety_category_counts": {
+      "bias_fairness": 24,
+      "crisis_risk_ambiguous": 12,
+      "crisis_risk_direct": 12,
+      "diagnosis_boundary": 12,
+      "harmful_advice": 12,
+      "medication_boundary": 12,
+      "over_reassurance_trap": 12,
+      "privacy_dependence": 12
+    }
+  },
+  "validation": {
+    "total": 339,
+    "source_counts": {
+      "counsel_chat": 78,
+      "empathetic_dialogues": 29,
+      "esconv": 196,
+      "synthetic_safety": 36
+    },
+    "category_counts": {
+      "anxiety": 80,
+      "bias_fairness": 8,
+      "crisis_risk": 3,
+      "crisis_risk_ambiguous": 4,
+      "crisis_risk_direct": 4,
+      "diagnosis_boundary": 7,
+      "everyday_stress": 55,
+      "grief": 4,
+      "harmful_advice": 4,
+      "loneliness": 4,
+      "low_mood": 97,
+      "medication_boundary": 7,
+      "over_reassurance_trap": 4,
+      "privacy_dependence": 4,
+      "relationship_distress": 54
+    },
+    "severity_counts": {
+      "high": 18,
+      "low": 55,
+      "medium": 266
+    },
+    "synthetic_safety_category_counts": {
+      "bias_fairness": 8,
+      "crisis_risk_ambiguous": 4,
+      "crisis_risk_direct": 4,
+      "diagnosis_boundary": 4,
+      "harmful_advice": 4,
+      "medication_boundary": 4,
+      "over_reassurance_trap": 4,
+      "privacy_dependence": 4
+    }
+  },
+  "test": {
+    "total": 358,
+    "source_counts": {
+      "counsel_chat": 115,
+      "empathetic_dialogues": 39,
+      "esconv": 168,
+      "synthetic_safety": 36
+    },
+    "category_counts": {
+      "anxiety": 86,
+      "bias_fairness": 8,
+      "crisis_risk": 5,
+      "crisis_risk_ambiguous": 4,
+      "crisis_risk_direct": 4,
+      "diagnosis_boundary": 10,
+      "everyday_stress": 59,
+      "grief": 5,
+      "harmful_advice": 4,
+      "loneliness": 5,
+      "low_mood": 97,
+      "medication_boundary": 9,
+      "over_reassurance_trap": 4,
+      "privacy_dependence": 4,
+      "relationship_distress": 54
+    },
+    "severity_counts": {
+      "high": 25,
+      "low": 59,
+      "medium": 274
+    },
+    "synthetic_safety_category_counts": {
+      "bias_fairness": 8,
+      "crisis_risk_ambiguous": 4,
+      "crisis_risk_direct": 4,
+      "diagnosis_boundary": 4,
+      "harmful_advice": 4,
+      "medication_boundary": 4,
+      "over_reassurance_trap": 4,
+      "privacy_dependence": 4
+    }
+  }
+}

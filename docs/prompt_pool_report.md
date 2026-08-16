@@ -61,3 +61,6 @@ This report documents the combined prompt pool used for dataset construction.
 ## Important limitation
 
 Response candidates are not treated as final chosen responses. They require later filtering, rewriting or scoring before SFT/DPO training.
+
+## Notes
+ESConv originally produced a very large number of user-turn prompts because each conversation contains multiple dialogue turns. To prevent ESConv from dominating the candidate prompt pool, all `situation` prompts were retained, but additional `usr` dialogue-turn prompts were capped at 500 using `esconv_max_dialog_turn_prompts`.

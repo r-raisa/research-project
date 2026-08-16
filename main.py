@@ -20,6 +20,8 @@ from src.data_pipeline import (
     validate_prompt_pool,
     create_prompt_pool_report,
     prepare_prompt_pool,
+    create_train_validation_test_splits,
+    validate_existing_splits,
 )
 
 
@@ -37,6 +39,8 @@ STAGES = [
     "validate_prompt_pool",
     "report_prompt_pool",
     "prepare_prompt_pool",
+    "create_splits",
+    "validate_splits",
     "prepare_data",
     "all",
 ]
@@ -90,6 +94,12 @@ def main():
 
     elif args.stage == "prepare_prompt_pool":
         prepare_prompt_pool(PROJECT_ROOT)
+    
+    elif args.stage == "create_splits":
+        create_train_validation_test_splits(PROJECT_ROOT)
+
+    elif args.stage == "validate_splits":
+        validate_existing_splits(PROJECT_ROOT)
 
     elif args.stage == "prepare_data":
         download_data(PROJECT_ROOT)

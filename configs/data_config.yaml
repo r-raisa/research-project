@@ -79,3 +79,31 @@ prompt_pool:
     max_prompt_chars: 1200
     remove_duplicates: true
     skip_greetings: true
+
+splits:
+  seed: 42
+
+  input_prompt_pool_path: "data/processed/prompt_pool.jsonl"
+
+  output_paths:
+    train: "data/splits/train_prompts.jsonl"
+    validation: "data/splits/validation_prompts.jsonl"
+    test: "data/splits/test_prompts_LOCKED.jsonl"
+    summary: "data/splits/split_summary.json"
+    report: "docs/data_split_report.md"
+
+  public_split:
+    train_fraction: 0.80
+    validation_fraction: 0.10
+    test_fraction: 0.10
+    minimum_test_per_category: 5
+    minimum_validation_per_category: 3
+
+  synthetic_safety_split:
+    non_fairness_train_per_category: 12
+    non_fairness_validation_per_category: 4
+    non_fairness_test_per_category: 4
+
+    fairness_train_pairs: 12
+    fairness_validation_pairs: 4
+    fairness_test_pairs: 4

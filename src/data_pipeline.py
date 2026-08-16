@@ -6,6 +6,10 @@ from pathlib import Path
 from collections import Counter
 import json
 import re
+import random
+import random
+from collections import Counter, defaultdict
+from pathlib import Path
 
 from datasets import load_dataset, load_from_disk
 
@@ -448,7 +452,7 @@ def create_synthetic_safety_report(project_root):
     lines.append(
         "SyntheticSafety provides controlled prompts for evaluating safety-critical "
         "behaviour in therapy-style language model responses. It covers crisis risk, "
-        "harmful-advice refusal, diagnosis boundaries, medication boundaries, "
+        "harmful advice refusal, diagnosis boundaries, medication boundaries, "
         "privacy/dependence boundaries, over-reassurance, and bias/fairness.\n"
     )
 
@@ -848,7 +852,7 @@ def extract_counsel_chat(project_root):
                     prompt_text=question_text,
                     source_label=topic,
                     extraction_method="questionText",
-                    notes="CounselChat questionText extracted as a realistic mental-health-style prompt.",
+                    notes="CounselChat questionText extracted as a realistic mental health style prompt.",
                 )
             )
 
@@ -889,9 +893,8 @@ def extract_esconv(project_root):
     """
     Extract prompts and response candidates from ESConv.
 
-    - Always extract the `situation` field because it is a clean standalone prompt.
-    - Extract only a capped number of meaningful `usr` dialogue turns, because
-      extracting every turn makes ESConv dominate the prompt pool.
+    - Always extract the `situation` field because it's a clean standalone prompt.
+    - Extract a capped number of meaningful `usr` dialogue turns, because extracting every turn makes ESConv dominate the prompt pool.
     - Keep `sys` turns as response candidates paired with the previous useful user turn.
     """
     from datasets import load_from_disk
@@ -1044,11 +1047,11 @@ def extract_esconv(project_root):
 
 def extract_empathetic_dialogues(project_root):
     """
-    Extract a capped number of low-risk empathy prompts from EmpatheticDialogues.
+    Extract a capped number of low risk empathy prompts from EmpatheticDialogues.
 
     - use `prompt`, not all utterances.
     - clean `_comma_` artefacts.
-    - cap the number of prompts so this general empathy dataset does not dominate.
+    - cap number of prompts so this dataset does not dominate.
     """
     from datasets import load_from_disk
 
@@ -1126,7 +1129,7 @@ def extract_empathetic_dialogues(project_root):
 
 def normalise_synthetic_for_prompt_pool(row):
     """
-    Add prompt-pool fields to a SyntheticSafety row without changing the source file.
+    Add prompt pool fields to a SyntheticSafety row without changing the source file.
     """
     row = dict(row)
 
@@ -1387,3 +1390,553 @@ def prepare_prompt_pool(project_root):
     build_prompt_pool(project_root)
     validate_prompt_pool(project_root)
     create_prompt_pool_report(project_root)
+
+
+# ---------------------------------------------------------------------------
+# Train / validation / test splitting
+# ---------------------------------------------------------------------------
+
+
+def get_split_config(project_root):
+    """Read the `splits:` block from configs/data_config.yaml."""
+    dirs = ensure_project_dirs(project_root)
+    config = load_yaml(dirs["configs"] / "data_config.yaml")
+    return config.get("splits", {})
+
+
+def get_split_paths(project_root):
+    """Resolve all split output paths from the config."""
+    split_config = get_split_config(project_root)
+    output_paths = split_config.get("output_paths", {})
+
+    default_paths = {
+        "train": "data/splits/train_prompts.jsonl",
+        "validation": "data/splits/validation_prompts.jsonl",
+        "test": "data/splits/test_prompts_LOCKED.jsonl",
+        "summary": "data/splits/split_summary.json",
+        "report": "docs/data_split_report.md",
+    }
+
+    resolved = {}
+
+    for key, default_path in default_paths.items():
+        path_value = output_paths.get(key, default_path)
+        resolved[key] = resolve_project_path(project_root, path_value)
+
+    return resolved
+
+
+def add_split_metadata(row, split_name):
+    """
+    Return a copy of a prompt row with the split name added.
+    """
+    new_row = dict(row)
+    new_row["split"] = split_name
+    return new_row
+
+def split_synthetic_safety_rows(rows, split_config):
+    """
+    Split SyntheticSafety separately.
+
+    Design:
+    - For each non-fairness category with 20 prompts:
+      12 train, 4 validation, 4 test.
+    - For bias_fairness:
+      split by fairness_pair_id, not by individual prompt.
+      12 train pairs, 4 validation pairs, 4 test pairs.
+
+    This gives:
+    - train: 108 prompts
+    - validation: 36 prompts
+    - test: 36 prompts
+    """
+
+    seed = split_config.get("seed", 42)
+    rng = random.Random(seed)
+
+    synthetic_config = split_config.get("synthetic_safety_split", {})
+
+    non_fair_train_n = synthetic_config.get("non_fairness_train_per_category", 12)
+    non_fair_val_n = synthetic_config.get("non_fairness_validation_per_category", 4)
+    non_fair_test_n = synthetic_config.get("non_fairness_test_per_category", 4)
+
+    fairness_train_pairs_n = synthetic_config.get("fairness_train_pairs", 12)
+    fairness_val_pairs_n = synthetic_config.get("fairness_validation_pairs", 4)
+    fairness_test_pairs_n = synthetic_config.get("fairness_test_pairs", 4)
+
+    synthetic_rows = [
+        row for row in rows
+        if row.get("source_dataset") == "synthetic_safety"
+    ]
+
+    train_rows = []
+    validation_rows = []
+    test_rows = []
+
+    non_fairness_by_category = defaultdict(list)
+    fairness_by_pair = defaultdict(list)
+
+    for row in synthetic_rows:
+        category = row.get("category")
+
+        if category == "bias_fairness":
+            pair_id = row.get("fairness_pair_id")
+
+            if not pair_id:
+                raise ValueError(
+                    f"Bias/fairness row missing fairness_pair_id: {row.get('prompt_id')}"
+                )
+
+            fairness_by_pair[pair_id].append(row)
+
+        else:
+            non_fairness_by_category[category].append(row)
+
+    # ------------------------------------------------------------
+    # Split non-fairness synthetic categories exactly
+    # ------------------------------------------------------------
+    for category, category_rows in sorted(non_fairness_by_category.items()):
+        category_rows = list(category_rows)
+        rng.shuffle(category_rows)
+
+        expected_total = non_fair_train_n + non_fair_val_n + non_fair_test_n
+
+        if len(category_rows) != expected_total:
+            raise ValueError(
+                f"SyntheticSafety category '{category}' has {len(category_rows)} rows, "
+                f"but expected {expected_total}."
+            )
+
+        train_part = category_rows[:non_fair_train_n]
+        validation_part = category_rows[
+            non_fair_train_n:non_fair_train_n + non_fair_val_n
+        ]
+        test_part = category_rows[
+            non_fair_train_n + non_fair_val_n:
+        ]
+
+        train_rows.extend(add_split_metadata(row, "train") for row in train_part)
+        validation_rows.extend(
+            add_split_metadata(row, "validation") for row in validation_part
+        )
+        test_rows.extend(add_split_metadata(row, "test") for row in test_part)
+
+    # ------------------------------------------------------------
+    # Split fairness prompts by pair
+    # ------------------------------------------------------------
+    fairness_pairs = list(fairness_by_pair.items())
+    rng.shuffle(fairness_pairs)
+
+    for pair_id, pair_rows in fairness_pairs:
+        if len(pair_rows) != 2:
+            raise ValueError(
+                f"Fairness pair '{pair_id}' has {len(pair_rows)} rows. "
+                "Each fairness pair must contain exactly 2 prompts."
+            )
+
+    expected_pairs = fairness_train_pairs_n + fairness_val_pairs_n + fairness_test_pairs_n
+
+    if len(fairness_pairs) != expected_pairs:
+        raise ValueError(
+            f"SyntheticSafety has {len(fairness_pairs)} fairness pairs, "
+            f"but expected {expected_pairs}."
+        )
+
+    train_pairs = fairness_pairs[:fairness_train_pairs_n]
+    validation_pairs = fairness_pairs[
+        fairness_train_pairs_n:fairness_train_pairs_n + fairness_val_pairs_n
+    ]
+    test_pairs = fairness_pairs[
+        fairness_train_pairs_n + fairness_val_pairs_n:
+    ]
+
+    for _, pair_rows in train_pairs:
+        train_rows.extend(add_split_metadata(row, "train") for row in pair_rows)
+
+    for _, pair_rows in validation_pairs:
+        validation_rows.extend(
+            add_split_metadata(row, "validation") for row in pair_rows
+        )
+
+    for _, pair_rows in test_pairs:
+        test_rows.extend(add_split_metadata(row, "test") for row in pair_rows)
+
+    return {
+        "train": train_rows,
+        "validation": validation_rows,
+        "test": test_rows,
+    }
+
+def get_group_category(group_rows):
+    """
+    Choose the category used for stratifying one group, if group contains multiple prompt rows, use the most common category.
+    """
+    categories = [row.get("category", "unknown") for row in group_rows]
+    return Counter(categories).most_common(1)[0][0]
+
+
+def split_group_list_by_targets(group_list, test_target, validation_target):
+    """
+    Split a list of grouped rows into test, validation and train.
+    """
+    test_groups = []
+    validation_groups = []
+    train_groups = []
+
+    test_count = 0
+    validation_count = 0
+
+    remaining_groups = []
+
+    for group_id, group_rows in group_list:
+        if test_count < test_target:
+            test_groups.append((group_id, group_rows))
+            test_count += len(group_rows)
+        else:
+            remaining_groups.append((group_id, group_rows))
+
+    for group_id, group_rows in remaining_groups:
+        if validation_count < validation_target:
+            validation_groups.append((group_id, group_rows))
+            validation_count += len(group_rows)
+        else:
+            train_groups.append((group_id, group_rows))
+
+    return train_groups, validation_groups, test_groups
+
+
+def split_public_rows_grouped(rows, split_config):
+    """
+    Split public data from prompt pool rows using grouped, category aware splitting.
+
+    Grouping prevents leakage:
+    - same CounselChat question stays in one split
+    - same ESConv conversation stays in one split
+    - same EmpatheticDialogues conversation stays in one split
+    """
+
+    seed = split_config.get("seed", 42)
+    rng = random.Random(seed)
+
+    public_config = split_config.get("public_split", {})
+
+    validation_fraction = public_config.get("validation_fraction", 0.10)
+    test_fraction = public_config.get("test_fraction", 0.10)
+    minimum_test_per_category = public_config.get("minimum_test_per_category", 5)
+    minimum_validation_per_category = public_config.get(
+        "minimum_validation_per_category",
+        3,
+    )
+
+    public_rows = [
+        row for row in rows
+        if row.get("source_dataset") != "synthetic_safety"
+    ]
+
+    groups = defaultdict(list)
+
+    for row in public_rows:
+        source = row.get("source_dataset", "unknown_source")
+        group_id = row.get("group_id") or row.get("source_id") or row.get("prompt_id")
+
+        # Prefix source to avoid accidental collisions between datasets.
+        full_group_id = f"{source}::{group_id}"
+
+        groups[full_group_id].append(row)
+
+    groups_by_category = defaultdict(list)
+
+    for group_id, group_rows in groups.items():
+        category = get_group_category(group_rows)
+        groups_by_category[category].append((group_id, group_rows))
+
+    train_rows = []
+    validation_rows = []
+    test_rows = []
+
+    for category, group_list in sorted(groups_by_category.items()):
+        group_list = list(group_list)
+        rng.shuffle(group_list)
+
+        total_rows_in_category = sum(len(group_rows) for _, group_rows in group_list)
+
+        if total_rows_in_category == 0:
+            continue
+
+        raw_test_target = round(total_rows_in_category * test_fraction)
+        raw_validation_target = round(total_rows_in_category * validation_fraction)
+
+        if total_rows_in_category >= minimum_test_per_category:
+            test_target = max(raw_test_target, minimum_test_per_category)
+        else:
+            test_target = raw_test_target
+
+        if total_rows_in_category >= minimum_validation_per_category:
+            validation_target = max(raw_validation_target, minimum_validation_per_category)
+        else:
+            validation_target = raw_validation_target
+
+        # Keep at least one group for training where possible.
+        max_non_train = max(0, total_rows_in_category - 1)
+
+        if test_target + validation_target > max_non_train:
+            overflow = (test_target + validation_target) - max_non_train
+            validation_target = max(0, validation_target - overflow)
+
+        train_groups, validation_groups, test_groups = split_group_list_by_targets(
+            group_list=group_list,
+            test_target=test_target,
+            validation_target=validation_target,
+        )
+
+        for _, group_rows in train_groups:
+            train_rows.extend(add_split_metadata(row, "train") for row in group_rows)
+
+        for _, group_rows in validation_groups:
+            validation_rows.extend(
+                add_split_metadata(row, "validation") for row in group_rows
+            )
+
+        for _, group_rows in test_groups:
+            test_rows.extend(add_split_metadata(row, "test") for row in group_rows)
+
+    return {
+        "train": train_rows,
+        "validation": validation_rows,
+        "test": test_rows,
+    }
+
+def validate_split_rows(split_rows):
+    """
+    Validate train/validation/test split rows.
+
+    Checks:
+    - no duplicate prompt_id across splits
+    - no group_id leakage across splits
+    - each row has the correct split label
+    """
+
+    errors = []
+
+    prompt_to_split = {}
+    group_to_split = {}
+
+    for split_name, rows in split_rows.items():
+        for row in rows:
+            prompt_id = row.get("prompt_id")
+            source = row.get("source_dataset", "unknown_source")
+            group_id = row.get("group_id") or row.get("source_id") or prompt_id
+
+            full_group_id = f"{source}::{group_id}"
+
+            if row.get("split") != split_name:
+                errors.append(
+                    f"Prompt {prompt_id} is in {split_name} file but has split={row.get('split')}"
+                )
+
+            if prompt_id in prompt_to_split:
+                errors.append(
+                    f"Prompt {prompt_id} appears in both "
+                    f"{prompt_to_split[prompt_id]} and {split_name}"
+                )
+            else:
+                prompt_to_split[prompt_id] = split_name
+
+            if full_group_id in group_to_split:
+                previous_split = group_to_split[full_group_id]
+
+                if previous_split != split_name:
+                    errors.append(
+                        f"Group {full_group_id} appears in both "
+                        f"{previous_split} and {split_name}"
+                    )
+            else:
+                group_to_split[full_group_id] = split_name
+
+    if errors:
+        print("\nSplit validation errors:")
+        for error in errors:
+            print(f"- {error}")
+
+        raise ValueError("Train/validation/test split validation failed.")
+
+    print("\nSplit validation passed.")
+
+def summarise_split_rows(split_rows):
+    """Create count summaries for train/validation/test splits."""
+
+    summary = {}
+
+    for split_name, rows in split_rows.items():
+        source_counts = Counter(row.get("source_dataset") for row in rows)
+        category_counts = Counter(row.get("category") for row in rows)
+        severity_counts = Counter(row.get("severity") for row in rows)
+
+        synthetic_category_counts = Counter(
+            row.get("category")
+            for row in rows
+            if row.get("source_dataset") == "synthetic_safety"
+        )
+
+        summary[split_name] = {
+            "total": len(rows),
+            "source_counts": dict(sorted(source_counts.items())),
+            "category_counts": dict(sorted(category_counts.items())),
+            "severity_counts": dict(sorted(severity_counts.items())),
+            "synthetic_safety_category_counts": dict(
+                sorted(synthetic_category_counts.items())
+            ),
+        }
+
+    return summary
+
+
+def write_split_report(project_root, split_rows, summary):
+    """Write docs/data_split_report.md and data/splits/split_summary.json."""
+
+    paths = get_split_paths(project_root)
+
+    paths["summary"].parent.mkdir(parents=True, exist_ok=True)
+    paths["report"].parent.mkdir(parents=True, exist_ok=True)
+
+    with open(paths["summary"], "w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2, ensure_ascii=False)
+
+    lines = []
+    lines.append("# Data split report\n")
+    lines.append(
+        "This report documents the train/validation/test split used for the project.\n"
+    )
+
+    lines.append("## Split method\n")
+    lines.append(
+        "- The combined prompt pool was split into train, validation and locked test sets."
+    )
+    lines.append(
+        "- SyntheticSafety was split separately using exact category level counts."
+    )
+    lines.append(
+        "- Bias/fairness prompts were split by `fairness_pair_id`, so matched pairs remain in the same split."
+    )
+    lines.append(
+        "- Public dataset prompts were split using grouped, category aware splitting."
+    )
+    lines.append(
+        "- Grouping prevents related prompts from the same question or conversation appearing in multiple splits."
+    )
+    lines.append(
+        "- The held out test set is saved as `data/splits/test_prompts_LOCKED.jsonl` and must not be used during training or prompt/response generation.\n"
+    )
+
+    for split_name in ["train", "validation", "test"]:
+        split_summary = summary[split_name]
+
+        lines.append(f"## {split_name.title()} split\n")
+        lines.append(f"- Total prompts: {split_summary['total']}\n")
+
+        lines.append("### Source counts\n")
+        for source, count in split_summary["source_counts"].items():
+            lines.append(f"- `{source}`: {count}")
+
+        lines.append("\n### Category counts\n")
+        for category, count in split_summary["category_counts"].items():
+            lines.append(f"- `{category}`: {count}")
+
+        lines.append("\n### Severity counts\n")
+        for severity, count in split_summary["severity_counts"].items():
+            lines.append(f"- `{severity}`: {count}")
+
+        lines.append("\n### SyntheticSafety category counts\n")
+        for category, count in split_summary["synthetic_safety_category_counts"].items():
+            lines.append(f"- `{category}`: {count}")
+
+        lines.append("")
+
+    with open(paths["report"], "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+    print(f"Saved split summary to: {paths['summary']}")
+    print(f"Saved split report to: {paths['report']}")
+
+def create_train_validation_test_splits(project_root):
+    """
+    Create train, validation and locked test prompt files.
+
+    Input:
+    - data/processed/prompt_pool.jsonl
+
+    Outputs:
+    - data/splits/train_prompts.jsonl
+    - data/splits/validation_prompts.jsonl
+    - data/splits/test_prompts_LOCKED.jsonl
+    - data/splits/split_summary.json
+    - docs/data_split_report.md
+    """
+
+    # Validate and load the prompt pool.
+    rows = validate_prompt_pool(project_root, return_rows=True, verbose=False)
+
+    split_config = get_split_config(project_root)
+    paths = get_split_paths(project_root)
+
+    synthetic_split = split_synthetic_safety_rows(rows, split_config)
+    public_split = split_public_rows_grouped(rows, split_config)
+
+    split_rows = {
+        "train": synthetic_split["train"] + public_split["train"],
+        "validation": synthetic_split["validation"] + public_split["validation"],
+        "test": synthetic_split["test"] + public_split["test"],
+    }
+
+    validate_split_rows(split_rows)
+
+    write_jsonl(split_rows["train"], paths["train"])
+    write_jsonl(split_rows["validation"], paths["validation"])
+    write_jsonl(split_rows["test"], paths["test"])
+
+    summary = summarise_split_rows(split_rows)
+    write_split_report(project_root, split_rows, summary)
+
+    print("\nTrain/validation/test split complete")
+    print("=" * 40)
+    print(f"Train prompts: {len(split_rows['train'])}")
+    print(f"Validation prompts: {len(split_rows['validation'])}")
+    print(f"Test prompts: {len(split_rows['test'])}")
+    print(f"Train file: {paths['train']}")
+    print(f"Validation file: {paths['validation']}")
+    print(f"Locked test file: {paths['test']}")
+
+def validate_existing_splits(project_root):
+    """Validate split files that already exist on disk."""
+
+    paths = get_split_paths(project_root)
+
+    train_rows = read_jsonl(paths["train"])
+    validation_rows = read_jsonl(paths["validation"])
+    test_rows = read_jsonl(paths["test"])
+
+    split_rows = {
+        "train": train_rows,
+        "validation": validation_rows,
+        "test": test_rows,
+    }
+
+    validate_split_rows(split_rows)
+
+    summary = summarise_split_rows(split_rows)
+
+    print("\nExisting split validation summary")
+    print("=" * 40)
+
+    for split_name in ["train", "validation", "test"]:
+        print(f"\n{split_name}: {summary[split_name]['total']} prompts")
+
+        print("Source counts:")
+        for source, count in summary[split_name]["source_counts"].items():
+            print(f"- {source}: {count}")
+
+        print("SyntheticSafety category counts:")
+        for category, count in summary[split_name]["synthetic_safety_category_counts"].items():
+            print(f"- {category}: {count}")
+
+    return summary

@@ -38,6 +38,8 @@ data/processed/*
 # Train/validation/test splits
 data/splits/*
 !data/splits/.gitkeep
+!data/splits/test_prompts_LOCKED.jsonl
+!data/splits/split_summary.json
 
 # Results and model outputs
 results/model_outputs/*
