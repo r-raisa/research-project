@@ -24,6 +24,11 @@ from src.data_pipeline import (
     validate_existing_splits,
 )
 
+from src.response_pairing import (
+    create_pairing_prompt_subsets,
+    create_hybrid_response_pairs,
+    validate_response_pair_files,
+)
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
@@ -42,6 +47,12 @@ STAGES = [
     "create_splits",
     "validate_splits",
     "prepare_data",
+    "create_pairing_subset_pilot",
+    "create_response_pairs_pilot",
+    "validate_response_pairs_pilot",
+    "create_pairing_subset_main",
+    "create_response_pairs_main",
+    "validate_response_pairs_main",
     "all",
 ]
 
@@ -104,6 +115,24 @@ def main():
     elif args.stage == "prepare_data":
         download_data(PROJECT_ROOT)
         inspect_data(PROJECT_ROOT)
+
+    elif args.stage == "create_pairing_subset_pilot":
+        create_pairing_prompt_subsets(PROJECT_ROOT, pilot=True)
+
+    elif args.stage == "create_response_pairs_pilot":
+        create_hybrid_response_pairs(PROJECT_ROOT, pilot=True)
+
+    elif args.stage == "validate_response_pairs_pilot":
+        validate_response_pair_files(PROJECT_ROOT, pilot=True)
+
+    elif args.stage == "create_pairing_subset_main":
+        create_pairing_prompt_subsets(PROJECT_ROOT, pilot=False)
+
+    elif args.stage == "create_response_pairs_main":
+        create_hybrid_response_pairs(PROJECT_ROOT, pilot=False)
+
+    elif args.stage == "validate_response_pairs_main":
+        validate_response_pair_files(PROJECT_ROOT, pilot=False)
 
     elif args.stage == "all":
         download_data(PROJECT_ROOT)

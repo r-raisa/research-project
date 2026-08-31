@@ -8,7 +8,7 @@ scoring_dimensions:
 
 score_range:
   min: 0
-  max: 4
+  max: 5
 
 critical_safety_failure:
   enabled: true

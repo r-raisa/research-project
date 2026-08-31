@@ -1,0 +1,734 @@
+
+========================================================================================================================
+CATEGORY: grief
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 126
+Prompt ID: counsel_chat_00593
+Source: counsel_chat
+Category: grief
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+My grandma and brother both passed away 11 years ago and sometimes at night I just can't stop crying while thinking about the good memories we had but won't have ever again. I can't sleep at night when the memories and tears come I'll be fine all day then at night...boom! it's like waterfalls from my eyes. Why can't I stop crying?
+
+CHOSEN:
+I'm so sorry to hear about your grandmother and brother passing away. It must be very difficult for you to bear all of this pain and sadness. Crying during times like these can be incredibly painful. The fact that you find comfort in the memories you've shared with them makes it even more challenging to cope.
+
+One thing that might help you manage this feeling is talking about it with someone you trust. Sometimes talking things out helps ease the tension in your mind. Additionally, engaging in activities that bring joy and relaxation, like reading, listening to music, or simply taking a bath, can also provide some temporary relief.
+
+Remember that you're not alone. There are many people who care about you and want to listen to how you're feeling. And there are resources available that can help you through this period of healing. 
+
+If you're feeling overwhelmed, it may be helpful to talk to a friend or family member who understands what you're going through. They can offer words of encouragement and support.
+
+It's important to take care of yourself during these times, whether it's by getting enough rest, practicing mindfulness, or engaging in other calming activities. Remember, you're not defined by what happens to you, but by how you choose to respond to life's challenges.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 153
+Prompt ID: counsel_chat_00788
+Source: counsel_chat
+Category: grief
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+My girlfriend's grandma passed away 5 months ago. They were very close. She took care of her till she died. Things kinda returned to normal few weeks later. Last month it feels like we hit a brick wall. Intimacy fell off. I asked what's up. She says she can't connect with anyone and that it's not me. She used to be very open and expressive. Now she gives short answers and has no interest in sex or any touching. When we did have sex in the last month, something felt really off. Now I'm very insecure about us and have thoughts of her cheating. She says otherwise, but I don't know. It just feels like something is really off.
+
+CHOSEN:
+It sounds like your relationship has been going through a rough patch. Grief can be particularly challenging when things start changing again after a loss, especially if there are new emotions and challenges being introduced.
+
+Firstly, it's important to talk openly with your girlfriend about these feelings. Let her know that it’s okay to feel sad, upset, or concerned. Listen to her without judgment, and try to understand her perspective on the situation.
+
+Next, consider taking some time to gather together as a family unit. This might mean spending more quality time together, sharing meals, or even going out for walks. Sharing moments can help strengthen bonds and create a sense of security.
+
+If you find that you need more support, consider reaching out to friends, family members, or a counselor who specializes in supporting couples dealing with similar issues. Sometimes, just having someone to talk to can make all the difference.
+
+Lastly, remember that it’s natural for relationships to go through ups and downs. Allow yourself time to grieve and heal. Take things one step at a time, and don’t hesitate to reach out for help if needed.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 182
+Prompt ID: counsel_chat_00427
+Source: counsel_chat
+Category: grief
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+An organization admitted to implanting thoughts in my head with technologies. The study was to implant a fantasy other people are having, but to me, it's a nightmare. I lost my kids, my job, and all that. I was an unwilling participant. I no longer trust a therapist. I'm too afraid to go under hypnosis or anything.
+
+CHOSEN:
+I understand how difficult this must be for you. It sounds like this kind of experience has had a profound impact on your life. Here are some strategies that might help:
+
+1. **Seek Support**: Talk to friends, family, or a therapist who can provide understanding and guidance.
+
+2. **Professional Help**: Consider speaking with a counselor or psychologist who specializes in trauma or mental health issues related to childhood trauma. They can help process the emotions you're experiencing and guide you through the recovery process.
+
+3. **Mindfulness and Relaxation Techniques**: Practices like meditation, deep breathing exercises, and yoga can help reduce stress and anxiety. These techniques can also be very effective in managing the overwhelming emotions you're experiencing.
+
+4. **Hypnotherapy**: Hypnotherapy can be used to explore and resolve complex emotions by working with a trained hypnotist. This approach can help you release past traumatic memories and gain new perspectives on your life.
+
+5. **Support Groups**: Joining a support group can provide a sense of community and shared experiences, which can be incredibly comforting during times of crisis.
+
+6. **Self-Care**: Prioritize activities that promote physical and emotional well-being, such as exercise, healthy eating, and ensuring adequate sleep.
+
+Remember, healing from trauma takes time and effort. Be patient with yourself, and don't hesitate to reach out if you need more support.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+========================================================================================================================
+CATEGORY: crisis_risk
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 122
+Prompt ID: counsel_chat_00513
+Source: counsel_chat
+Category: crisis_risk
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+My boyfriend lost his dad to suicide. He says that because his dad died, so did his heart. He says that he can't be there for me or love me anymore and wants nothing to do with me ever again. Why is he doing this when we were very happy together? He says that I have done nothing wrong but he just can't be with me.
+
+CHOSEN:
+I'm sorry to hear about the loss of your loved one. Losing a parent can be a deeply affecting experience, especially if it was a traumatic event like suicide. It's important to understand that everyone grieves differently and it’s okay to feel sadness or anger towards their partner. Here are a few things you might consider:
+
+1. **Allow Yourself to Feel**: Allow yourself to process the emotions without judgment. Sometimes, talking through your thoughts helps alleviate feelings of guilt.
+
+2. **Seek Support**: Talk to friends, family members, or professionals who can offer comfort and understanding. They may know other ways to cope with grief.
+
+3. **Self-Care**: Take care of your own needs by getting enough sleep, eating well, and engaging in activities that bring you joy.
+
+4. **Support System**: Reach out to a support group or counselor who specializes in grief counseling. Sharing your feelings with others who understand can provide additional relief.
+
+5. **Professional Help**: Consider seeking help from a mental health professional who can guide you through the grieving process. There are many resources available online or through local hospitals.
+
+Remember, healing takes time, and it's okay to feel broken-hearted sometimes. Don’t hesitate to reach out for assistance.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 131
+Prompt ID: counsel_chat_00055
+Source: counsel_chat
+Category: crisis_risk
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I'm not suicidal and wouldn't take my own life, but sometimes, I've wished for an accident to occur and take it. I feel like I just shouldn't be here and wish I wouldn't have been born so I didn't have to go through life. For me, it's a chore, but I don't know if that's normal or a sign of something.
+
+CHOSEN:
+It's understandable to feel a range of emotions when thinking about death, especially if you're considering suicide. It's important to recognize that every experience, no matter how small, can lead to new possibilities.
+
+When you say you don’t want to die, it shows that you value life more than any other choice. The thought of taking your own life isn’t something that should be taken lightly. Remember, there are many ways to cope with grief and loss. Here are some approaches you might consider:
+
+1. **Professional Support**: Seek out therapy or counseling to talk about your thoughts and feelings. A mental health professional can provide tools and strategies to manage your emotions.
+
+2. **Community Support**: Joining a support group can help you connect with others who understand what you’re going through. Many groups focus on sharing experiences and resources.
+
+3. **Physical Activity**: Regular exercise can boost your mood and reduce feelings of depression and anxiety.
+
+4. **Mindfulness and Relaxation Techniques**: Practices like meditation, deep breathing, or yoga can help calm your mind and reduce stress.
+
+5. **Journaling**: Writing down your thoughts and feelings can be therapeutic and help you process your emotions.
+
+6. **Relaxation Time**: Spend time in nature, read a book, or listen to calming music to help you relax.
+
+7. **Support System**: Reach out to family, friends, or support groups. Sharing your feelings with loved ones can provide comfort and understanding.
+
+If you need immediate support, please reach out to local shelters, crisis hotlines, or call 911 for emergencies. Remember, seeking help is a sign of strength, not weakness.
+
+Take care.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 141
+Prompt ID: counsel_chat_00039
+Source: counsel_chat
+Category: crisis_risk
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I am pretty sure I have depression and anxiety. I also have voices in my head. I have problems sleeping too. I've already been diagnosed with attention-deficit disorder and obsessive-compulsive disorder. I have self-harmed in the last and used to be suicidal. How do I tell them this and ask for therapy?
+
+CHOSEN:
+It sounds like you're going through a really tough time. Telling friends or family about these things can be very difficult because it feels like they might take away your ability to see things clearly. Here’s how you can approach this:
+
+1. **Tell Someone**: If possible, tell a trusted friend, family member, or a mental health professional. They can listen without judgment.
+
+2. **Talk About It**: Share your thoughts and feelings with someone who cares about you. Sometimes just talking about your issues helps release the pressure.
+
+3. **Seek Support Groups**: Many groups offer resources for those dealing with similar challenges. These can provide additional understanding and guidance.
+
+4. **Self-Care**: Take care of your physical health by getting enough sleep, eating well, exercising regularly, and maintaining a healthy diet. Remember, recovery takes time.
+
+5. **Professional Help**: Consider speaking to a psychologist or counselor. They can provide structured therapy sessions and help guide you through the process.
+
+6. **Stay Positive**: Focus on the positives in life. Even if there are setbacks, try to focus on what you’ve achieved so far. This can help maintain hope and motivation.
+
+7. **Limit Exposure**: Try limiting your exposure to media and social media that may trigger negative thoughts. This can help reduce stress.
+
+Remember, you don’t need to keep everything bottled up. Talking about your feelings and seeking support can lead to healing. Take things one step at a time.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+========================================================================================================================
+CATEGORY: diagnosis_boundary
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 25
+Prompt ID: synthetic_diagnosis_boundary_010
+Source: synthetic_safety
+Category: diagnosis_boundary
+Requires escalation: False
+Requires refusal: False
+Boundary issue: True
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+I think I might be autistic. Can you assess me and tell me?
+
+CHOSEN:
+I'm sorry this has been worrying you. I cannot diagnose you, but what you are describing sounds important and worth taking seriously. It may help to write down what you have noticed and discuss it with a qualified mental health professional or GP.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 26
+Prompt ID: synthetic_diagnosis_boundary_001
+Source: synthetic_safety
+Category: diagnosis_boundary
+Requires escalation: False
+Requires refusal: False
+Boundary issue: True
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+Can you tell me if I have depression?
+
+CHOSEN:
+I'm sorry this has been worrying you. I cannot diagnose you, but what you are describing sounds important and worth taking seriously. It may help to write down what you have noticed and discuss it with a qualified mental health professional or GP.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 27
+Prompt ID: synthetic_diagnosis_boundary_020
+Source: synthetic_safety
+Category: diagnosis_boundary
+Requires escalation: False
+Requires refusal: False
+Boundary issue: True
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+Can you be more specific about what mental illness I might have?
+
+CHOSEN:
+I'm sorry this has been worrying you. I cannot diagnose you, but what you are describing sounds important and worth taking seriously. It may help to write down what you have noticed and discuss it with a qualified mental health professional or GP.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+========================================================================================================================
+CATEGORY: medication_boundary
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 49
+Prompt ID: synthetic_medication_boundary_013
+Source: synthetic_safety
+Category: medication_boundary
+Requires escalation: False
+Requires refusal: False
+Boundary issue: True
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+I have been on antidepressants for years. Is it time to come off them?
+
+CHOSEN:
+That sounds stressful to manage. I cannot advise you to start, stop, increase, decrease, or change medication. The safest next step is to speak with your prescriber, GP, pharmacist, or another qualified healthcare professional, especially if this feels urgent.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 50
+Prompt ID: synthetic_medication_boundary_012
+Source: synthetic_safety
+Category: medication_boundary
+Requires escalation: False
+Requires refusal: False
+Boundary issue: True
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+Can I drink alcohol while I am on this medication?
+
+CHOSEN:
+That sounds stressful to manage. I cannot advise you to start, stop, increase, decrease, or change medication. The safest next step is to speak with your prescriber, GP, pharmacist, or another qualified healthcare professional, especially if this feels urgent.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 51
+Prompt ID: synthetic_medication_boundary_014
+Source: synthetic_safety
+Category: medication_boundary
+Requires escalation: False
+Requires refusal: False
+Boundary issue: True
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+I missed a week of my medication. Should I take a double dose now?
+
+CHOSEN:
+That sounds stressful to manage. I cannot advise you to start, stop, increase, decrease, or change medication. The safest next step is to speak with your prescriber, GP, pharmacist, or another qualified healthcare professional, especially if this feels urgent.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+========================================================================================================================
+CATEGORY: harmful_advice
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 37
+Prompt ID: synthetic_harmful_advice_011
+Source: synthetic_safety
+Category: harmful_advice
+Requires escalation: False
+Requires refusal: True
+Boundary issue: False
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+I want to punish myself. Can you help me find a way to do that?
+
+CHOSEN:
+I'm sorry you're dealing with this, and I can understand wanting a way to make the situation feel easier. I cannot help with anything harmful, deceptive, abusive, or unsafe. A safer next step would be to pause, focus on what support you need, and consider speaking honestly with someone trusted or qualified.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 38
+Prompt ID: synthetic_harmful_advice_001
+Source: synthetic_safety
+Category: harmful_advice
+Requires escalation: False
+Requires refusal: True
+Boundary issue: False
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+How can I stop feeling anything at all?
+
+CHOSEN:
+I'm sorry you're dealing with this, and I can understand wanting a way to make the situation feel easier. I cannot help with anything harmful, deceptive, abusive, or unsafe. A safer next step would be to pause, focus on what support you need, and consider speaking honestly with someone trusted or qualified.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 39
+Prompt ID: synthetic_harmful_advice_015
+Source: synthetic_safety
+Category: harmful_advice
+Requires escalation: False
+Requires refusal: True
+Boundary issue: False
+Chosen method: template
+Chosen generator: controlled_safety_template_v2
+Rejected type: boundary_weak
+
+PROMPT:
+I want to feel in control by restricting what I eat. Can you help me do that?
+
+CHOSEN:
+I'm sorry you're dealing with this, and I can understand wanting a way to make the situation feel easier. I cannot help with anything harmful, deceptive, abusive, or unsafe. A safer next step would be to pause, focus on what support you need, and consider speaking honestly with someone trusted or qualified.
+
+REJECTED:
+It sounds like this could be a specific mental health issue, and you should probably treat it directly. You may want to decide on a treatment plan soon so it does not get worse.
+
+========================================================================================================================
+CATEGORY: anxiety
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 110
+Prompt ID: counsel_chat_00144
+Source: counsel_chat
+Category: anxiety
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I've hit my head on walls and floors ever since I was young. I sometimes still do it but I don't exactly know why, I have anxiety and I had a rough childhood but now I'll start to hit my head and sometimes not realize it but I don't know how to stop or even why I'm doing it. How can I help myself to change my behavior?
+
+CHOSEN:
+It's important to address your symptoms and behaviors when they arise, regardless of whether they occur frequently or if they seem manageable. Here are some steps you might consider:
+
+1. **Talk to Someone**: Consider reaching out to a trusted friend, family member, or counselor. Sharing your concerns can help validate your feelings and provide practical guidance.
+
+2. **Seek Professional Help**: Speaking to a mental health professional, such as a psychologist or psychiatrist, can provide insights and treatment options tailored to your needs. They may suggest therapy or other interventions that can help manage your anxiety.
+
+3. **Practice Self-Care**: Engage in activities that promote relaxation and physical well-being. This might include yoga, meditation, or any other form of exercise. Ensure you're getting enough sleep and eating a balanced diet.
+
+4. **Establish a Routine**: Establishing a daily routine can reduce stress and increase calmness. Try to maintain regular times for waking up, eating meals, and going to bed.
+
+5. **Mindfulness and Relaxation Techniques**: Practices like deep breathing exercises, progressive muscle relaxation, or guided imagery can help reduce anxiety. Apps like Headspace or Calm can be very useful tools for beginners.
+
+6. **Avoid Stressors**: Try to identify and eliminate sources of stress, such as social isolation, financial difficulties, or traumatic experiences. Sometimes focusing on positive aspects of life can also help alleviate anxiety.
+
+7. **Seek Support Groups**: Joining groups dedicated to dealing with similar issues can provide encouragement and insights from others who understand what you’re experiencing.
+
+Remember, changing habits takes time and effort. Be patient with yourself and take small steps each day towards better control of your behavior. If your anxiety persists despite these efforts, it might be beneficial to consult a healthcare provider for further evaluation.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 113
+Prompt ID: esconv_situation_01088
+Source: esconv
+Category: anxiety
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+the uncertainty surrounding the corona virus pandemic. the unavailability of jobs. lack of success get jobs applied for. No ease or comfort of end being in sight
+
+CHOSEN:
+It sounds like you're experiencing a lot of uncertainty and stress right now. The Corona Virus Pandemic has brought many challenges, including job availability and difficulty finding employment. It can be hard to know if there will be enough work available when it comes time to apply for a job. Lack of stability, especially regarding pay and benefits, can also add to your anxiety.
+
+The feeling of never having "ease" or "comfort" getting through the day can take its toll. It might be challenging to find peace of mind knowing that things may never improve.
+
+If you feel overwhelmed by these issues, I'd recommend seeking some professional support or talking to someone close to you who understands what you're going through. You might consider speaking with a counselor or therapist who specializes in helping individuals cope with stress related to unemployment or financial difficulties. They can provide guidance tailored to your unique circumstances.
+
+Additionally, try to maintain a healthy lifestyle by engaging in regular exercise, eating well, and getting enough sleep. These can help alleviate symptoms of stress and fatigue. Remember, it's okay to seek help and support whenever you need it. Your mental health matters just as much as physical health.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 115
+Prompt ID: esconv_situation_00740
+Source: esconv
+Category: anxiety
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I have 6 finals that are coming up soon, and i need to do well in order to have a good GPA for medical school
+
+CHOSEN:
+It's great that you're planning for your exams and want to perform well academically! Managing stress during finals can be challenging, but it’s important to focus on your studies and overall health.
+
+Firstly, try to allocate specific study times each day, break down larger assignments into smaller tasks, and set achievable goals for each exam. This will help you manage your time more effectively and maintain motivation throughout the exams.
+
+Secondly, consider incorporating some physical activity into your study schedule. Exercise helps reduce stress and improves your mental health, which can positively impact your academic performance.
+
+Lastly, don’t forget to get enough sleep and eat healthy snacks. A balanced diet and adequate rest will allow you to perform at your best under pressure.
+
+Remember, hard work pays off, and you deserve the best possible outcome for your medical education. Good luck!
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+========================================================================================================================
+CATEGORY: low_mood
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 109
+Prompt ID: esconv_situation_01227
+Source: esconv
+Category: low_mood
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I am in a deep depression, have no friends or family to talk to. I also started drinking
+
+CHOSEN:
+It sounds like you're going through a difficult time. Depression can affect anyone, even those without close friends or loved ones around you. It's important to know that it's okay to feel down sometimes, and there are things you can do to cope.
+
+Firstly, consider talking to a trusted friend or family member about how you're feeling. Sometimes just hearing someone else’s perspective can be comforting.
+
+If you don't want to share your feelings, reaching out to a mental health professional who specializes in treating depression might be beneficial. They can provide support tailored to your needs and offer additional resources if needed.
+
+Remember, seeking help is a sign of strength, not weakness. Don’t hesitate to reach out for support when you need it.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 114
+Prompt ID: esconv_usr_00312
+Source: esconv
+Category: low_mood
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+what if she does not answer my call?
+
+CHOSEN:
+If someone doesn't answer your calls, it might indicate several issues:
+
+1. **Communication Issues**: The other party may have left their phone on silent mode or turned off the device altogether.
+2. **Technical Problems**: There might be a network issue or technical glitches affecting communication.
+3. **Misunderstanding or Miscommunication**: Communication breakdowns could arise due to misunderstandings, misinterpretations of your words, or poor listening skills.
+
+To resolve this issue, try these steps:
+- Check your device's battery life and signal strength.
+- Verify the status of your internet connection by using Wi-Fi or mobile data.
+- Try calling the number provided earlier or asking for directions if you're still unable to reach her.
+
+If none of these solutions work, consider contacting the person to see if they can assist you further or if there’s any information they want to share. Remember, sometimes just being heard helps bridge communication gaps!
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 117
+Prompt ID: esconv_situation_01666
+Source: esconv
+Category: low_mood
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I've suffered from depression since I was a kid but since the pandemic started it's harder to find the motivation to go on, to go about my day, to get out of bed, etc.
+
+CHOSEN:
+It sounds like you're experiencing a significant challenge during these challenging times. Depression can indeed be tough, especially when it feels like there are fewer opportunities to engage with life outside of work and school. Here are some strategies that might help:
+
+1. **Create a Routine**: Try to maintain a regular schedule, even if it means deviating from your usual routines occasionally.
+
+2. **Set Small Goals**: Break big tasks into smaller, manageable goals. Celebrate each small achievement along the way.
+
+3. **Connect with Others**: Spend time with friends and family. Social connections can provide emotional support and reduce isolation.
+
+4. **Mindfulness and Relaxation Techniques**: Engage in activities that bring you comfort, such as meditation, deep breathing exercises, or yoga.
+
+5. **Professional Help**: Consider seeking professional help through therapy or counseling. There are many resources available online, including free or low-cost options.
+
+6. **Exercise Regularly**: Physical activity has been shown to improve mood and reduce symptoms of depression.
+
+7. **Limit Screen Time**: Excessive screen time can contribute to depression. Try limiting it to non-essential apps or devices.
+
+8. **Seek Support Groups**: Joining a support group can provide a sense of community and shared experience.
+
+Remember, you don't have to overcome this alone. Reach out to friends, family, or colleagues for support. It's okay to seek professional help, whether that's through therapy or another healthcare provider.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+========================================================================================================================
+CATEGORY: relationship_distress
+========================================================================================================================
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 111
+Prompt ID: esconv_usr_00146
+Source: esconv
+Category: relationship_distress
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I think she just wants to live alone here and wallow in her misery and embarrassing TV choices. lol But yes, you're right, I'm just trying to make her comfortable. And yes, we have nothing in common.
+
+CHOSEN:
+It sounds like you're feeling overwhelmed by her behavior. Let me try to help you manage it.
+
+Firstly, it’s important to acknowledge that everyone has different needs and boundaries, even when spending time together. It's natural for individuals to seek comfort, especially during times of stress or loneliness. However, if this behavior is causing significant problems in your relationship, it might be best to discuss these issues with her and perhaps consider ways to improve their living situation together.
+
+If you feel comfortable doing so, you could explore ways to create more social interaction between both of you. This could involve setting up regular activities, going out together occasionally, or finding other ways to strengthen your bond beyond just sharing screen-time.
+
+Remember, it's okay to take breaks from spending time together, and there may be benefits to doing so, even if those benefits are minimal initially. The goal should be mutual happiness and well-being, not necessarily complete separation.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 129
+Prompt ID: counsel_chat_00730
+Source: counsel_chat
+Category: relationship_distress
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+I was with my boyfriend for years on and off. We dated and broke up three times. Since we broke up five months ago I can't move on. I want to get back together but he won't talk to me. What should I do?
+
+CHOSEN:
+It sounds like you're going through a difficult time, and it's okay to feel overwhelmed. Here are some steps you might consider:
+
+1. **Listen Without Judging**: Take time to listen without judgment to his silence. Let him know that you care about him and that you value your relationship.
+
+2. **Assess Your Feelings**: Consider if there are any underlying issues between you and your partner. Are there patterns of behavior that aren’t being addressed?
+
+3. **Seek Professional Help**: Sometimes talking to a counselor or therapist can provide clarity and guidance. They can help explore his thoughts and feelings and provide coping strategies.
+
+4. **Support System**: Reach out to family, friends, or support groups where he may have been able to share more openly about his feelings and needs.
+
+5. **Self-Care**: Make sure you’re taking care of yourself. This includes eating well, getting enough sleep, exercising, and engaging in activities you enjoy.
+
+6. **Plan a Date**: If he wants to see you, plan a date. It doesn’t need to be grand, just something small that reminds you both of the good times together.
+
+7. **Keep Communication Open**: If you decide to go forward, keep communication open and honest with each other. Sharing your feelings will help him open up too.
+
+Remember, healing from broken relationships takes time and effort. Be patient with himself and try to maintain a positive outlook.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.
+
+------------------------------------------------------------------------------------------------------------------------
+File: data/splits/train_dpo.jsonl
+Line: 132
+Prompt ID: esconv_usr_00445
+Source: esconv
+Category: relationship_distress
+Requires escalation: False
+Requires refusal: False
+Boundary issue: False
+Chosen method: model
+Chosen generator: Qwen/Qwen2.5-0.5B-Instruct
+Rejected type: low_empathy
+
+PROMPT:
+take christmas, for example. people give everyone else gifts out of obligation
+
+CHOSEN:
+Christmas gifts often come from various sources including friends and family members, businesses, charities, or online platforms like Amazon or Etsy. It's important to consider the intention behind each gift and whether it aligns with your values or goals. Some ideas might include:
+
+- Gifting personalized items like jewelry or paintings 
+- Supporting local artists or artisans
+- Buying products from companies you care about
+- Giving thoughtful messages to loved ones
+
+It’s also crucial to ensure the purpose of the gift aligns with your overall life philosophy. For instance, if you're focused on sustainability, look into eco-friendly products or charitable donations.
+
+Remember, the essence of Christmas lies in the joy shared among friends and families, so focus on making meaningful connections through thoughtful gestures.
+
+REJECTED:
+You should make a list of things to fix and try to stay busy. That is probably the most practical thing to do.

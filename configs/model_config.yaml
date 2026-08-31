@@ -1,11 +1,20 @@
-
-
-# Edit this at a later date
 model:
-  name: "to_be_confirmed"
-  hf_id: "to_be_confirmed"
-  reason: "Small open-source instruct model suitable for Apple Silicon local experimentation."
+  project_model_scope: "laptop_scale_open_source_instruct_model"
 
-device:
-  prefer_mps: true
-  fallback_cpu: true
+  primary_model_id: "Qwen/Qwen2.5-0.5B-Instruct"
+  stretch_model_id: "Qwen/Qwen2.5-1.5B-Instruct"
+
+  original_planned_model_id: "meta-llama/Meta-Llama-3-8B-Instruct"
+  original_planned_model_status: "Not used for laptop-only experiments because local compute is limited."
+
+  device_preference:
+    - "mps"
+    - "cpu"
+
+  torch_dtype: "float16"
+
+  max_seq_length: 1024
+
+  notes: >
+    Due to the constraints of this project the actual experimental model used will be a smaller open-source
+    instruct model so that SFT, DPO, and evaluation can be completed locally.

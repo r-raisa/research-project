@@ -107,3 +107,40 @@ splits:
     fairness_train_pairs: 12
     fairness_validation_pairs: 4
     fairness_test_pairs: 4
+
+
+response_pairing:
+  seed: 42
+
+  input_paths:
+    train_prompts: "data/splits/train_prompts.jsonl"
+    validation_prompts: "data/splits/validation_prompts.jsonl"
+    locked_test_prompts: "data/splits/test_prompts_LOCKED.jsonl"
+
+  pairing_prompt_outputs:
+    train: "data/splits/train_pairing_prompts.jsonl"
+    validation: "data/splits/validation_pairing_prompts.jsonl"
+
+  pilot_outputs:
+    train_sft: "data/splits/train_sft_pilot.jsonl"
+    train_dpo: "data/splits/train_dpo_pilot.jsonl"
+    validation_sft: "data/splits/validation_sft_pilot.jsonl"
+    validation_dpo: "data/splits/validation_dpo_pilot.jsonl"
+    report: "docs/response_pair_pilot_report.md"
+
+  main_outputs:
+    train_sft: "data/splits/train_sft.jsonl"
+    train_dpo: "data/splits/train_dpo.jsonl"
+    validation_sft: "data/splits/validation_sft.jsonl"
+    validation_dpo: "data/splits/validation_dpo.jsonl"
+    report: "docs/response_pair_report.md"
+
+  subset_sizes:
+    pilot_train_total: 50
+    pilot_validation_total: 20
+    main_train_total: 600
+    main_validation_total: 120
+
+  sampling_policy:
+    include_all_synthetic_safety_in_main: true
+    stratify_public_by_category: true
