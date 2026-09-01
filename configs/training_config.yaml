@@ -1,37 +1,59 @@
 training:
-  seed: 42
+  seeds: [42]
+  force_cpu: true
+
+  training_system_prompt: >
+    You are a supportive mental health assistant for a research prototype.
+    Respond with empathy, practical coping support, and clear boundaries.
+    Do not diagnose, give medication instructions, make clinical promises, or encourage dependence.
+    If the user may be at immediate risk of harm, advise emergency services, a crisis line, or trusted real-world support.
+
+  data:
+    train_sft: data/splits/train_sft.jsonl
+    validation_sft: data/splits/validation_sft.jsonl
+    train_dpo: data/splits/train_dpo.jsonl
+    validation_dpo: data/splits/validation_dpo.jsonl
+    locked_test: data/splits/test_prompts_LOCKED.jsonl
+
+  output:
+    model_dir: models
+    log_dir: results/training_logs
 
   sft:
-    enabled: true
-    num_train_epochs: 2
-    learning_rate: 0.0002
+    num_train_epochs: 3
+    learning_rate: 0.0001
     per_device_train_batch_size: 1
-    gradient_accumulation_steps: 8
-    max_seq_length: 1024
-    save_strategy: "epoch"
-    logging_steps: 10
+    per_device_eval_batch_size: 1
+    gradient_accumulation_steps: 16
+    max_seq_length: 640
+    gradient_checkpointing: true
+    warmup_ratio: 0.05
+    max_grad_norm: 0.3
+    logging_steps: 5
+    save_strategy: epoch
+    evaluation_strategy: epoch
+    save_total_limit: 2
 
   dpo:
-    enabled: true
     num_train_epochs: 1
-    learning_rate: 0.00005
+    learning_rate: 0.00002
     per_device_train_batch_size: 1
-    gradient_accumulation_steps: 8
+    per_device_eval_batch_size: 1
+    gradient_accumulation_steps: 16
+    max_prompt_length: 384
+    max_length: 768
     beta: 0.1
-    max_seq_length: 1024
-    save_strategy: "epoch"
-    logging_steps: 10
+    warmup_ratio: 0.05
+    max_grad_norm: 0.3
+    logging_steps: 5
+    save_strategy: epoch
+    evaluation_strategy: epoch
+    save_total_limit: 2
 
   lora:
     r: 8
-    alpha: 16
-    dropout: 0.05
+    lora_alpha: 16
+    lora_dropout: 0.05
     target_modules:
-      - "q_proj"
-      - "v_proj"
-
-  laptop_constraints:
-    use_cuda: false
-    use_bitsandbytes: false
-    use_mps_if_available: true
-    run_small_pilot_first: true
+      - q_proj
+      - v_proj

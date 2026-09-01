@@ -1,0 +1,50 @@
+{
+  "stage": "sft",
+  "seed": 42,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "train_rows": 513,
+  "validation_rows": 96,
+  "output_dir": "/Users/raisa/Desktop/Research Project/git-repo/research-project/models/sft/seed_42",
+  "final_adapter": "/Users/raisa/Desktop/Research Project/git-repo/research-project/models/sft/seed_42/final_adapter",
+  "training_time_minutes": 63.18087381919225,
+  "device": "cpu",
+  "sft_config": {
+    "num_train_epochs": 3,
+    "learning_rate": 0.0001,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "max_seq_length": 640,
+    "gradient_checkpointing": true,
+    "warmup_ratio": 0.05,
+    "max_grad_norm": 0.3,
+    "logging_steps": 5,
+    "save_strategy": "epoch",
+    "evaluation_strategy": "epoch",
+    "save_total_limit": 2
+  },
+  "lora_config": {
+    "r": 8,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ]
+  },
+  "train_metrics": {
+    "train_runtime": 3718.8239,
+    "train_samples_per_second": 0.414,
+    "train_steps_per_second": 0.026,
+    "total_flos": 1715262920667648.0,
+    "train_loss": 1.8315057282646496,
+    "epoch": 2.9941520467836256
+  },
+  "eval_metrics": {
+    "eval_loss": 1.3046842813491821,
+    "eval_runtime": 67.4093,
+    "eval_samples_per_second": 1.424,
+    "eval_steps_per_second": 1.424,
+    "epoch": 2.9941520467836256
+  }
+}

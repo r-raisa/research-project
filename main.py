@@ -30,6 +30,8 @@ from src.response_pairing import (
     validate_response_pair_files,
 )
 
+from src.training import train_sft, train_dpo
+
 PROJECT_ROOT = Path(__file__).resolve().parent
 
 
@@ -53,6 +55,8 @@ STAGES = [
     "create_pairing_subset_main",
     "create_response_pairs_main",
     "validate_response_pairs_main",
+    "train_sft",
+    "train_dpo",
     "all",
 ]
 
@@ -133,6 +137,12 @@ def main():
 
     elif args.stage == "validate_response_pairs_main":
         validate_response_pair_files(PROJECT_ROOT, pilot=False)
+
+    elif args.stage == "train_sft":
+        train_sft(PROJECT_ROOT)
+
+    elif args.stage == "train_dpo":
+        train_dpo(PROJECT_ROOT)
 
     elif args.stage == "all":
         download_data(PROJECT_ROOT)

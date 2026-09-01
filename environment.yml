@@ -56,6 +56,7 @@ dependencies:
 
     # Utilities
     - tqdm==4.66.2
+    - rich
 
     # Code quality
     - black==24.4.2
