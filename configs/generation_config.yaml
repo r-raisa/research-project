@@ -35,7 +35,8 @@ generation:
     If the user says someone has died, respond as grief support.
     Do not copy the user's wording excessively.
     Do not diagnose, give medication advice, make clinical promises, or encourage dependence on this tool.
-    Keep the response concise and proportionate.
+    Keep the response concise and proportionate. 
+    End with a complete sentence.
   
   rejected_response_global_guardrail: >
     Generate a lower-quality response for research comparison only.

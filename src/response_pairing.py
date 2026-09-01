@@ -444,6 +444,34 @@ def generate_model_chosen_response(row, model_bundle, generation_config):
     return response
 
 
+
+def response_appears_cut_off(response):
+    """
+    Detect responses that appear unfinished.
+    """
+
+    unfinished_endings = [
+        "but",
+        "and",
+        "or",
+        "because",
+        "although",
+        "while",
+        "taking small, consistent",
+        "for example",
+        "such as",
+        "including",
+        "to help you",
+        "you can try to",
+    ]
+
+    response_lower = response.strip().lower()
+
+    if response_lower.endswith(tuple(unfinished_endings)):
+        return True
+
+    return False
+
 def public_response_passes_relevance_check(row, response):
     """
     Check whether a public chosen response is prompt-specific enough.
@@ -457,6 +485,9 @@ def public_response_passes_relevance_check(row, response):
 
     if len(response.split()) < 25:
         return False, "response too short"
+
+    if response_appears_cut_off(response):
+        return False, "response appears cut off or unfinished"
 
     generic_fragments = [
         "i'm sorry you're feeling this way",
@@ -784,22 +815,10 @@ def validate_response_pair_rows(rows, mode):
 
         response_text = row.get("response") or row.get("chosen") or ""
 
-        unfinished_endings = [
-            "but",
-            "and",
-            "or",
-            "because",
-            "although",
-            "while",  
-            "taking small, consistent",
-        ]
-
-        if response_text.strip().lower().endswith(tuple(unfinished_endings)):
+        if response_appears_cut_off(response_text):
             errors.append(
                 f"Line {index}: chosen/response appears to be cut off or unfinished"
             )
-
-
 
         prompt_text = row.get("prompt", "")
         if response_text and prompt_text:

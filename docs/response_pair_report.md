@@ -62,10 +62,10 @@ Main files:
 | `train_dpo_pilot.jsonl` | 44 |
 | `validation_sft_pilot.jsonl` | 18 |
 | `validation_dpo_pilot.jsonl` | 18 |
-| `train_sft_main.jsonl` | 524 |
-| `train_dpo_main.jsonl` | 524 |
-| `validation_sft_main.jsonl` | 101 |
-| `validation_dpo_main.jsonl` | 101 |
+| `train_sft_main.jsonl` | 513 |
+| `train_dpo_main.jsonl` | 513 |
+| `validation_sft_main.jsonl` | 96 |
+| `validation_dpo_main.jsonl` | 96 |
 
 The final row counts are lower than the initial sampled prompt subsets because examples were excluded when model-generated chosen responses failed automatic quality or relevance checks. SFT and DPO row counts match within each split, indicating that each retained prompt has both a supervised chosen-response example and a preference pair.
 
@@ -290,6 +290,7 @@ Rejected responses were reviewed for:
 ## Validation outcome
 
 Pilot validation passed after revisions to the safety flagging and routing logic.
+During main response-pair validation, one generated response was found to be cut off. The response-pair generation pipeline was updated so that unfinished responses are rejected before training-file creation. The main response-pair files were then regenerated and revalidated successfully.
 
 Main validation outcome:
 
