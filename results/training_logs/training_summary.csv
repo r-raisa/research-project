@@ -1,0 +1,3 @@
+stage,seed,model_id,train_rows,validation_rows,device,training_time_minutes,train_loss,eval_loss,train_runtime,train_samples_per_second,train_steps_per_second,final_adapter
+sft,42,Qwen/Qwen2.5-0.5B-Instruct,513,96,cpu,63.18087381919225,1.8315057282646496,1.3046842813491821,3718.8239,0.414,0.026,/Users/raisa/Desktop/Research Project/git-repo/research-project/models/sft/seed_42/final_adapter
+dpo,42,Qwen/Qwen2.5-0.5B-Instruct,513,96,cpu,171.16072439750036,0.3529990501701832,0.2587259113788605,9745.7131,0.053,0.003,/Users/raisa/Desktop/Research Project/git-repo/research-project/models/dpo/seed_42/final_adapter

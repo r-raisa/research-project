@@ -1,0 +1,60 @@
+{
+  "stage": "dpo",
+  "seed": 42,
+  "model_id": "Qwen/Qwen2.5-0.5B-Instruct",
+  "sft_adapter_used": "/Users/raisa/Desktop/Research Project/git-repo/research-project/models/sft/seed_42/final_adapter",
+  "train_rows": 513,
+  "validation_rows": 96,
+  "output_dir": "/Users/raisa/Desktop/Research Project/git-repo/research-project/models/dpo/seed_42",
+  "final_adapter": "/Users/raisa/Desktop/Research Project/git-repo/research-project/models/dpo/seed_42/final_adapter",
+  "training_time_minutes": 171.16072439750036,
+  "device": "cpu",
+  "dpo_config": {
+    "num_train_epochs": 1,
+    "learning_rate": 2e-05,
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,
+    "max_prompt_length": 384,
+    "max_length": 768,
+    "beta": 0.1,
+    "warmup_ratio": 0.05,
+    "max_grad_norm": 0.3,
+    "logging_steps": 5,
+    "save_strategy": "epoch",
+    "evaluation_strategy": "epoch",
+    "save_total_limit": 2
+  },
+  "lora_config": {
+    "r": 8,
+    "lora_alpha": 16,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ]
+  },
+  "train_metrics": {
+    "train_runtime": 9745.7131,
+    "train_samples_per_second": 0.053,
+    "train_steps_per_second": 0.003,
+    "total_flos": 0.0,
+    "train_loss": 0.3529990501701832,
+    "epoch": 0.9980506822612085
+  },
+  "eval_metrics": {
+    "eval_loss": 0.2587259113788605,
+    "eval_runtime": 470.9744,
+    "eval_samples_per_second": 0.204,
+    "eval_steps_per_second": 0.204,
+    "eval_rewards/chosen": -0.07801803201436996,
+    "eval_rewards/rejected": -1.584973931312561,
+    "eval_rewards/accuracies": 0.9583333134651184,
+    "eval_rewards/margins": 1.5069559812545776,
+    "eval_logps/rejected": -105.6449203491211,
+    "eval_logps/chosen": -187.33990478515625,
+    "eval_logits/rejected": -0.8904744982719421,
+    "eval_logits/chosen": -2.198103189468384,
+    "epoch": 0.9980506822612085
+  }
+}

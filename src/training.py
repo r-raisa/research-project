@@ -62,13 +62,64 @@ def load_training_configs(project_root):
     return model_config, generation_config["generation"], training_config["training"]
 
 
+
 def load_tokenizer(model_id):
+    """
+    Load tokenizer and ensure BOS/EOS/PAD token IDs are valid integers.
+    """
+
     tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    def is_valid_token_id(token_id):
+        return isinstance(token_id, int) and token_id >= 0
+
+    im_start_id = tokenizer.convert_tokens_to_ids("<|im_start|>")
+    im_end_id = tokenizer.convert_tokens_to_ids("<|im_end|>")
+    endoftext_id = tokenizer.convert_tokens_to_ids("<|endoftext|>")
+
+    if tokenizer.bos_token_id is None:
+        if is_valid_token_id(im_start_id):
+            tokenizer.bos_token = "<|im_start|>"
+        elif is_valid_token_id(endoftext_id):
+            tokenizer.bos_token = "<|endoftext|>"
+        elif tokenizer.eos_token is not None:
+            tokenizer.bos_token = tokenizer.eos_token
+        else:
+            raise ValueError("Could not set a valid BOS token.")
+
+    if tokenizer.eos_token_id is None:
+        if is_valid_token_id(im_end_id):
+            tokenizer.eos_token = "<|im_end|>"
+        elif is_valid_token_id(endoftext_id):
+            tokenizer.eos_token = "<|endoftext|>"
+        else:
+            raise ValueError("Could not set a valid EOS token.")
+
+    if tokenizer.pad_token_id is None:
+        if is_valid_token_id(endoftext_id):
+            tokenizer.pad_token = "<|endoftext|>"
+        else:
+            tokenizer.pad_token = tokenizer.eos_token
+
+    if tokenizer.bos_token_id is None:
+        raise ValueError("tokenizer.bos_token_id is still None after setup.")
+
+    if tokenizer.eos_token_id is None:
+        raise ValueError("tokenizer.eos_token_id is still None after setup.")
+
+    if tokenizer.pad_token_id is None:
+        raise ValueError("tokenizer.pad_token_id is still None after setup.")
 
     tokenizer.padding_side = "right"
+
+    print("Tokenizer setup:")
+    print(f"- bos_token: {tokenizer.bos_token}")
+    print(f"- bos_token_id: {tokenizer.bos_token_id}")
+    print(f"- eos_token: {tokenizer.eos_token}")
+    print(f"- eos_token_id: {tokenizer.eos_token_id}")
+    print(f"- pad_token: {tokenizer.pad_token}")
+    print(f"- pad_token_id: {tokenizer.pad_token_id}")
+
     return tokenizer
 
 
@@ -89,6 +140,20 @@ def load_base_model(model_id, training_config=None):
     model.to(device)
 
     return model, device
+
+def sync_model_token_ids(model, tokenizer):
+    """
+    Ensure the model config uses the same special-token IDs as the tokenizer.
+    """
+
+    model.config.bos_token_id = tokenizer.bos_token_id
+    model.config.eos_token_id = tokenizer.eos_token_id
+    model.config.pad_token_id = tokenizer.pad_token_id
+
+    if hasattr(model, "generation_config"):
+        model.generation_config.bos_token_id = tokenizer.bos_token_id
+        model.generation_config.eos_token_id = tokenizer.eos_token_id
+        model.generation_config.pad_token_id = tokenizer.pad_token_id
 
 
 def build_lora_config(training_config):
@@ -133,6 +198,10 @@ def format_sft_dataset(rows, tokenizer, system_prompt):
 
 
 def format_dpo_dataset(rows, tokenizer, system_prompt):
+    """
+    Format DPO data using fields expected by DPOTrainer.
+    """
+
     formatted = []
 
     for row in rows:
@@ -147,18 +216,32 @@ def format_dpo_dataset(rows, tokenizer, system_prompt):
             add_generation_prompt=True,
         )
 
+        chosen = row["chosen"].strip()
+        rejected = row["rejected"].strip()
+
+        if not prompt_text or not chosen or not rejected:
+            raise ValueError(f"Empty DPO field found for prompt_id={row.get('prompt_id')}")
+
         formatted.append(
             {
                 "prompt": prompt_text,
-                "chosen": row["chosen"] + tokenizer.eos_token,
-                "rejected": row["rejected"] + tokenizer.eos_token,
-                "prompt_id": row["prompt_id"],
-                "category": row.get("category"),
-                "source_dataset": row.get("source_dataset"),
+                "chosen": chosen,
+                "rejected": rejected,
             }
         )
 
-    return Dataset.from_list(formatted)
+    dataset = Dataset.from_list(formatted)
+
+    expected_columns = {"prompt", "chosen", "rejected"}
+    actual_columns = set(dataset.column_names)
+
+    if actual_columns != expected_columns:
+        raise ValueError(
+            f"DPO dataset has unexpected columns: {actual_columns}. "
+            f"Expected exactly: {expected_columns}"
+        )
+
+    return dataset
 
 
 def write_run_metadata(output_dir, metadata):
@@ -174,7 +257,10 @@ def train_sft(project_root):
 
     model_config, generation_config, training_config = load_training_configs(project_root)
     model_id = model_config["model"]["primary_model_id"]
-    system_prompt = generation_config["safety_system_prompt"]
+    system_prompt = training_config.get(
+        "training_system_prompt",
+        generation_config["safety_system_prompt"],
+    )
 
     data_cfg = training_config["data"]
     output_root = project_root / training_config["output"]["model_dir"]
@@ -239,10 +325,13 @@ def train_sft(project_root):
             peft_config=build_lora_config(training_config),
         )
 
+
         train_result = trainer.train()
         eval_result = trainer.evaluate()
 
+        trainer.save_state()
         final_dir = output_dir / "final_adapter"
+
         trainer.model.save_pretrained(final_dir)
         tokenizer.save_pretrained(final_dir)
 
@@ -297,6 +386,8 @@ def train_dpo(project_root):
         run_start = time.time()
 
         tokenizer = load_tokenizer(model_id)
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token
 
         sft_adapter_dir = output_root / "sft" / f"seed_{seed}" / "final_adapter"
         if not sft_adapter_dir.exists():
@@ -311,6 +402,7 @@ def train_dpo(project_root):
             sft_adapter_dir,
             is_trainable=True,
         )
+        sync_model_token_ids(model, tokenizer)
 
         ref_base_model, _ = load_base_model(model_id, training_config)
         ref_model = PeftModel.from_pretrained(
@@ -318,12 +410,17 @@ def train_dpo(project_root):
             sft_adapter_dir,
             is_trainable=False,
         )
+        sync_model_token_ids(ref_model, tokenizer)
 
         train_rows = read_jsonl(resolve_project_path(project_root, data_cfg["train_dpo"]))
         validation_rows = read_jsonl(resolve_project_path(project_root, data_cfg["validation_dpo"]))
 
         train_dataset = format_dpo_dataset(train_rows, tokenizer, system_prompt)
         validation_dataset = format_dpo_dataset(validation_rows, tokenizer, system_prompt)
+
+        print("DPO train columns:", train_dataset.column_names)
+        print("DPO validation columns:", validation_dataset.column_names)
+        print("Example DPO row:", train_dataset[0])
 
         dpo_cfg = training_config["dpo"]
         output_dir = output_root / "dpo" / f"seed_{seed}"
