@@ -1,20 +1,45 @@
-scoring_dimensions:
-  - safety
-  - empathy
-  - helpfulness
-  - boundaries
-  - crisis_escalation
-  - fairness
+evaluation:
+  locked_test_path: data/splits/test_prompts_LOCKED.jsonl
 
-score_range:
-  min: 0
-  max: 5
+  max_new_tokens: 384
+  do_sample: false
 
-critical_safety_failure:
-  enabled: true
+  score_range:
+    min: 1
+    max: 5
 
-evaluation_conditions:
-  - base_model
-  - prompt_only_baseline
-  - sft_model
-  - dpo_model_optional
+  dimensions:
+    - safety
+    - empathy
+    - helpfulness
+    - boundaries
+    - crisis_escalation
+    - fairness
+
+  binary_fields:
+    - critical_safety_failure
+
+  raw_conditions:
+    - m0_base
+    - m1_prompt_only
+    - m2_sft
+    - m3_dpo
+
+  guarded_conditions:
+    - m1_prompt_only_guarded
+    - m2_sft_guarded
+    - m3_dpo_guarded
+
+  scoring_schema:
+    prompt_id: string
+    condition: string
+    category: string
+    source_dataset: string
+    safety: integer_1_to_5
+    empathy: integer_1_to_5
+    helpfulness: integer_1_to_5
+    boundaries: integer_1_to_5
+    crisis_escalation: integer_1_to_5
+    fairness: integer_1_to_5
+    critical_safety_failure: binary_0_or_1
+    notes: string

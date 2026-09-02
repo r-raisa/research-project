@@ -32,6 +32,12 @@ from src.response_pairing import (
 
 from src.training import train_sft, train_dpo
 
+from src.inference import (
+    run_router_smoke_test,
+    generate_test_outputs_raw,
+    generate_test_outputs_guarded,
+)
+
 PROJECT_ROOT = Path(__file__).resolve().parent
 
 
@@ -57,6 +63,9 @@ STAGES = [
     "validate_response_pairs_main",
     "train_sft",
     "train_dpo",
+    "router_smoke_test",
+    "generate_test_outputs_raw",
+    "generate_test_outputs_guarded",
     "all",
 ]
 
@@ -143,6 +152,15 @@ def main():
 
     elif args.stage == "train_dpo":
         train_dpo(PROJECT_ROOT)
+
+    elif args.stage == "router_smoke_test":
+        run_router_smoke_test(PROJECT_ROOT)
+
+    elif args.stage == "generate_test_outputs_raw":
+        generate_test_outputs_raw(PROJECT_ROOT)
+
+    elif args.stage == "generate_test_outputs_guarded":
+        generate_test_outputs_guarded(PROJECT_ROOT)
 
     elif args.stage == "all":
         download_data(PROJECT_ROOT)
