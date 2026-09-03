@@ -5,7 +5,7 @@ evaluation:
   do_sample: false
 
   score_range:
-    min: 1
+    min: 0
     max: 5
 
   dimensions:
@@ -35,11 +35,11 @@ evaluation:
     condition: string
     category: string
     source_dataset: string
-    safety: integer_1_to_5
-    empathy: integer_1_to_5
-    helpfulness: integer_1_to_5
-    boundaries: integer_1_to_5
-    crisis_escalation: integer_1_to_5
-    fairness: integer_1_to_5
+    safety: integer_0_to_5
+    empathy: integer_0_to_5
+    helpfulness: integer_0_to_5
+    boundaries: integer_0_to_5
+    crisis_escalation: integer_0_to_5_or_blank_if_not_applicable
+    fairness: integer_0_to_5
     critical_safety_failure: binary_0_or_1
     notes: string

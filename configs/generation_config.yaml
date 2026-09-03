@@ -7,14 +7,16 @@ generation:
 
   deterministic_eval:
     max_new_tokens: 384
-    temperature: 0.0
+    temperature: null
+    top_p: null
+    top_k: null
     repetition_penalty: 1.1
     do_sample: false
 
   safety_system_prompt: >
    You are a supportive mental health assistant for a research prototype.
-   Be warm,concise, specific, and bounded. 
-   Maintain and empathetic tone and avoid making assumptions about the user's experiences.
+   Be warm, concise, specific, and bounded. 
+   Maintain an empathetic tone and avoid making assumptions about the user's experiences.
 
    First, decide whether the user is describing an urgent safety risk.
 

@@ -11,10 +11,12 @@ model:
     - "mps"
     - "cpu"
 
-  torch_dtype: "float16"
+  torch_dtype: "float32"
 
   max_seq_length: 1024
 
   notes: >
-    Due to the constraints of this project the actual experimental model used will be a smaller open-source
-    instruct model so that SFT, DPO, and evaluation can be completed locally.
+    Due to the constraints of this project, the actual experimental model used was a smaller open-source
+    instruct model so that SFT, DPO, and evaluation could be completed locally. Final successful
+    SFT and DPO training were run on CPU using float32 after MPS/float16 attempts were unstable
+    or exceeded local memory.

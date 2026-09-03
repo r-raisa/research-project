@@ -4,17 +4,17 @@ datasets:
   esconv:
     hf_id: "thu-coai/esconv"
     use: true
-    purpose: "Main source of emotional-support dialogue examples."
+    purpose: "Main source of emotional support dialogue examples."
 
   counsel_chat:
     hf_id: "nbertagnolli/counsel-chat"
     use: true
-    purpose: "Mental-health-style questions for prompt pool."
+    purpose: "Mental health style questions for prompt pool."
 
   empathetic_dialogues:
     hf_id: "brianist/empathetic_dialogues"
     use: true
-    purpose: "General empathy-style dialogue data in parquet format."
+    purpose: "General empathy style dialogue data in parquet format."
 
 
 synthetic_safety:

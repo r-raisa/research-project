@@ -1,6 +1,5 @@
 """
-Entry point for the LLM therapy post-training project.
-
+Entry point for the project.
 
 Run stages from the project root using:
     python main.py --stage <stage_name>
@@ -23,20 +22,26 @@ from src.data_pipeline import (
     create_train_validation_test_splits,
     validate_existing_splits,
 )
-
 from src.response_pairing import (
     create_pairing_prompt_subsets,
     create_hybrid_response_pairs,
     validate_response_pair_files,
 )
-
 from src.training import train_sft, train_dpo
-
 from src.inference import (
     run_router_smoke_test,
     generate_test_outputs_raw,
     generate_test_outputs_guarded,
 )
+from src.prepare_scoring import prepare_scoring_files
+from src.quality_checks import check_generated_outputs
+from src.finalize_scores import create_review_queue, apply_review_queue
+from src.validate_scores import validate_scores
+from src.analysis import analyse_results
+from src.figures import create_figures
+from src.extract_error_examples import extract_error_examples
+from src.score_consistency_audit import audit_score_consistency
+
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 
@@ -66,14 +71,22 @@ STAGES = [
     "router_smoke_test",
     "generate_test_outputs_raw",
     "generate_test_outputs_guarded",
+    "prepare_scoring",
+    "quality_check_outputs",
+    "create_critical_review_queue",
+    "apply_critical_review_queue",
+    "validate_scores",
+    "analyse_results",
+    "create_figures",
+    "extract_error_examples",
+    "audit_score_consistency",
     "all",
 ]
 
 
 def parse_args():
-    """Parse the command-line stage argument."""
     parser = argparse.ArgumentParser(
-        description="Run stages of the LLM therapy data pipeline."
+        description="Run stages of the LLM therapy data, training, and evaluation pipeline."
     )
     parser.add_argument(
         "--stage",
@@ -86,7 +99,6 @@ def parse_args():
 
 
 def main():
-    """Route the requested stage to the correct pipeline function."""
     args = parse_args()
 
     if args.stage == "download_data":
@@ -118,7 +130,7 @@ def main():
 
     elif args.stage == "prepare_prompt_pool":
         prepare_prompt_pool(PROJECT_ROOT)
-    
+
     elif args.stage == "create_splits":
         create_train_validation_test_splits(PROJECT_ROOT)
 
@@ -161,6 +173,33 @@ def main():
 
     elif args.stage == "generate_test_outputs_guarded":
         generate_test_outputs_guarded(PROJECT_ROOT)
+
+    elif args.stage == "prepare_scoring":
+        prepare_scoring_files(PROJECT_ROOT)
+
+    elif args.stage == "quality_check_outputs":
+        check_generated_outputs(PROJECT_ROOT)
+
+    elif args.stage == "create_critical_review_queue":
+        create_review_queue()
+
+    elif args.stage == "apply_critical_review_queue":
+        apply_review_queue()
+
+    elif args.stage == "validate_scores":
+        validate_scores(PROJECT_ROOT)
+
+    elif args.stage == "analyse_results":
+        analyse_results(PROJECT_ROOT)
+
+    elif args.stage == "create_figures":
+        create_figures(PROJECT_ROOT)
+
+    elif args.stage == "extract_error_examples":
+        extract_error_examples(PROJECT_ROOT)
+
+    elif args.stage == "audit_score_consistency":
+        audit_score_consistency(PROJECT_ROOT)
 
     elif args.stage == "all":
         download_data(PROJECT_ROOT)
