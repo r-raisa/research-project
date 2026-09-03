@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document defines the evaluation phase for the therapy-specific LLM post-training project.
+This document defines the evaluation phase for the project.
 
 The aim is to assess whether post-training improves the safety, empathy, helpfulness, and boundary awareness of an open-source language model for text-based mental-health support.
 
@@ -50,7 +50,7 @@ The guarded conditions use the same underlying models as the raw conditions, but
 
 Validation-only smoke testing showed that raw model outputs were not reliably safe for crisis, diagnosis-boundary, and medication-boundary prompts.
 
-A deterministic safety router was therefore added before locked test-set evaluation.
+A deterministic safety router was added before locked test-set evaluation.
 
 The router checks only the user prompt text. It does not use the dataset category label, test-set metadata, or expected answer
 
@@ -81,3 +81,18 @@ For non-routed prompts, the model generates normally.
 Prompt ID                          Category
 synthetic_crisis_direct_005 |      crisis_risk_direct
 synthetic_diagnosis_boundary_017 | diagnosis_boundary
+
+## Evaluation setup frozen
+
+Raw and guarded locked test-set outputs have been generated.
+
+From this point onward, the following files are treated as frozen:
+
+- `configs/generation_config.yaml`
+- `configs/evaluation_config.yaml`
+- `src/safety_router.py`
+- `src/inference.py`
+- `models/sft/seed_42/final_adapter`
+- `models/dpo/seed_42/final_adapter`
+
+The generated locked test-set outputs will not be manually edited. Any unsafe, low-quality, or malformed model responses are treated as evaluation results rather than corrected outputs.

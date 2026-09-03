@@ -37,6 +37,39 @@ def write_jsonl(path: Path, rows: list[dict]) -> None:
         for row in rows:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
+def get_prompt_text(row: dict) -> str:
+    """
+    Return the prompt text from either response-pair files or locked test files.
+
+    Training/validation response-pair files use:
+      - prompt
+
+    The locked test prompt file uses:
+      - prompt_text
+    """
+
+    prompt = row.get("prompt")
+
+    if prompt is None:
+        prompt = row.get("prompt_text")
+
+    if prompt is None:
+        raise KeyError(
+            "Could not find prompt text. Expected either 'prompt' or 'prompt_text'. "
+            f"Available keys: {list(row.keys())}"
+        )
+
+    if not isinstance(prompt, str):
+        raise TypeError(
+            f"Prompt must be a string, but got {type(prompt)} for "
+            f"prompt_id={row.get('prompt_id')}"
+        )
+
+    if not prompt.strip():
+        raise ValueError(f"Empty prompt text for prompt_id={row.get('prompt_id')}")
+
+    return prompt.strip()
+
 
 def load_inference_configs(project_root: Path):
     model_config = load_yaml(project_root / "configs" / "model_config.yaml")
@@ -275,7 +308,7 @@ def generate_condition_outputs(
     outputs = []
 
     for index, row in enumerate(prompts, start=1):
-        prompt = row["prompt"]
+        prompt = get_prompt_text(row)
         route_result = route_prompt(prompt) if use_router else None
 
         if use_router and route_result.routed:
@@ -360,14 +393,15 @@ def run_router_smoke_test(project_root: Path):
     results = []
 
     for row in rows:
-        route_result = route_prompt(row["prompt"])
+        prompt = get_prompt_text(row)
+        route_result = route_prompt(prompt)
 
         results.append(
-            {
+             {
                 "prompt_id": row.get("prompt_id"),
                 "category": row.get("category"),
                 "source_dataset": row.get("source_dataset"),
-                "prompt": row["prompt"],
+                "prompt": prompt,
                 "router_applied": route_result.routed,
                 "router_reason": route_result.route_type,
                 "generated_response": route_result.response,
