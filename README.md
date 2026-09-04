@@ -1,6 +1,8 @@
-# Therapy-Specific Post-Training for Safer Online Mental-Health Support
+# Therapy Specific Post-Training for Safer Online Mental Health Support
 
-This repository contains the code, data processing pipeline, training scripts, evaluation outputs, and documentation for a research prototype. We investigate whether therapy specific post-training can improve the safety, empathy, helpfulness, and boundary awareness of an open-source LLM for text-based online mental health support.
+This repository contains the code, data processing pipeline, training scripts, evaluation outputs, and documentation for a research prototype.
+
+We investigate whether therapy specific post-training can improve the safety, empathy, helpfulness, and boundary awareness of an open-source LLM for text-based online mental health support.
 
 The system is a research prototype only. It is not a clinical tool and should not be used for real mental health care.
 
