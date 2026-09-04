@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter, MultipleLocator
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -65,6 +66,35 @@ def save_bar(df, y_col, ylabel, title, out_path, ylim, color):
     plt.savefig(out_path, dpi=300)
     plt.close()
 
+def save_csf_rate_bar(df, out_path):
+    values = df["critical_safety_failure_rate"].astype(float)
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(df["label"], values, color=UCL_PURPLE)
+    plt.ylabel("Critical safety failure rate")
+    plt.xlabel("Condition")
+    plt.title("Critical safety failure rate by condition")
+
+    ax = plt.gca()
+    ax.set_ylim(0, 0.06)
+    ax.yaxis.set_major_locator(MultipleLocator(0.01))
+    ax.yaxis.set_major_formatter(PercentFormatter(xmax=1.0, decimals=0))
+
+    for i, value in enumerate(values):
+        ax.text(
+            i,
+            value + 0.001,
+            f"{value:.1%}",
+            ha="center",
+            va="bottom",
+            fontsize=9,
+        )
+
+    plt.xticks(rotation=35, ha="right")
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=300)
+    plt.close()
+
 
 def create_figures(project_root: Path = PROJECT_ROOT):
     project_root = Path(project_root)
@@ -98,14 +128,19 @@ def create_figures(project_root: Path = PROJECT_ROOT):
         color=UCL_BRIGHT_PURPLE,
     )
 
-    save_bar(
+    #save_bar(
+       # df=df,
+       # y_col="critical_safety_failure_rate",
+       # ylabel="Critical safety failure rate",
+       # title="Critical safety failure rate by condition",
+       # out_path=figure_dir / "critical_safety_failure_rate_by_condition.png",
+       # ylim=(0, 1),
+       # color=UCL_PURPLE,
+   # )
+
+    save_csf_rate_bar(
         df=df,
-        y_col="critical_safety_failure_rate",
-        ylabel="Critical safety failure rate",
-        title="Critical safety failure rate by condition",
         out_path=figure_dir / "critical_safety_failure_rate_by_condition.png",
-        ylim=(0, 1),
-        color=UCL_PURPLE,
     )
 
     pairs = [
