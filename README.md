@@ -1,10 +1,21 @@
 # Therapy-Specific Post-Training for Safer Online Mental-Health Support
 
-This repository contains the code, data processing pipeline, training scripts, evaluation outputs, and documentation for a research prototype investigating whether therapy-specific post-training can improve the safety, empathy, helpfulness, and boundary awareness of an open-source LLM for text-based online mental-health support.
+This repository contains the code, data processing pipeline, training scripts, evaluation outputs, and documentation for a research prototype. We investigate whether therapy specific post-training can improve the safety, empathy, helpfulness, and boundary awareness of an open-source LLM for text-based online mental health support.
 
-The system is a research prototype only. It is not a clinical tool and should not be used for real mental-health care.
+The system is a research prototype only. It is not a clinical tool and should not be used for real mental health care.
 
 ---
+
+## Research question and hypothesis
+
+**Research question:** Can therapy specific post-training, using supervised fine-tuning (SFT) followed by direct preference optimisation (DPO) applied to a small open-source instruction model, measurably improve the safety, empathy, helpfulness, and boundary awareness of that model for text-based online mental health support compared with the unmodified base model?
+
+**Hypothesis:** A two stage SFT - DPO pipeline applied using preference pairs constructed from therapy style prompts with clinically grounded chosen and rejected responses will produce a model with fewer critical safety failures and higher rubric scores on safety, empathy, and helpfulness than the base model, without an unacceptable reduction in helpfulness.
+
+**Falsification criterion:** The hypothesis fails if safety gains come only at the cost of helpfulness, or if post-training produces no statistically significant improvement on any rubric dimension compared with the prompt-only safety baseline.
+
+---
+
 
 ## Project summary
 
@@ -22,7 +33,28 @@ The project compares raw and guarded versions of a small open-source instruction
 
 The guarded conditions use a deterministic safety router before model generation.
 
-The final conclusion should be interpreted cautiously: SFT and DPO were implemented successfully, but post-training alone did not guarantee reliable safety-critical behaviour. The deterministic router improved some explicit safety-sensitive cases, but did not catch every ambiguous crisis signal.
+The final conclusion should be interpreted cautiously: SFT and DPO were implemented successfully, but post-training alone did not guarantee reliable safety critical behaviour. The deterministic router improved some explicit safety sensitive cases, but did not catch every ambiguous crisis signal.
+
+---
+## Main contribution
+
+The project contributes a reproducible local post-training and evaluation pipeline that separates:
+
+1. behaviour from the original open-weight instruction model;
+2. behaviour induced by a safety system prompt;
+3. behaviour learned through SFT and DPO; and
+4. behaviour enforced by a deterministic inference-time safety router.
+
+This separation is important because a safer final system may owe its performance to learned model behaviour, an external control layer, or both.
+
+---
+
+## Key limitations
+
+- Training was completed on a single random seed (42) under local CPU compute constraints. Results should be interpreted as an initial empirical observation rather than a stable multi-run estimate.
+- The base model (Qwen/Qwen2.5-0.5B-Instruct) is much smaller than the originally planned Llama 3 8B. Absolute response quality is limited by model capacity.
+- Post-training alone did not reliably handle ambiguous crisis signals. A deterministic safety router was added for guarded evaluation conditions but covered only 10 of 358 locked test prompts per condition.
+- The evaluation uses manual rubric scoring rather than automated metrics, introducing potential rater variance despite using blinded scoring and consistency auditing.
 
 ---
 
@@ -118,7 +150,7 @@ docs/score_consistency_audit_report.md
 docs/evaluation_results_report.md
 docs/error_analysis.md
 ```
-
+`docs/experiment_log.md` records the main chronological decisions and implementation changes made during the project.
 ---
 
 ## Final generated outputs
@@ -194,9 +226,10 @@ results/figures/raw_vs_guarded_safety.png
 - `critical_safety_failure` is binary: `0` means no critical safety failure and `1` means a critical safety failure was present.
 - `crisis_escalation` is blank for non-crisis prompts.
 - Final training used CPU float32 after MPS/float16 attempts were unstable or exceeded local memory.
+- Only one training seed was used because repeated SFT/DPO runs were not feasible under local compute constraints.
 
 ---
 
 ## Final interpretation
 
-The project should not be interpreted as demonstrating a clinically safe therapy chatbot. It demonstrates a reproducible post-training and evaluation framework, and shows that small-model SFT/DPO alone is insufficient for reliable safety-critical mental-health support. The strongest contribution is the distinction between optimisation success and safety success, supported by locked test-set evaluation and qualitative error analysis.
+The project should not be interpreted as demonstrating a clinically safe therapy chatbot. It demonstrates a reproducible post-training and evaluation framework, and shows that small-model SFT/DPO alone is insufficient for reliable safety critical, mental health support. The strongest contribution is the distinction between optimisation success and safety success, supported by locked test-set evaluation and qualitative error analysis.

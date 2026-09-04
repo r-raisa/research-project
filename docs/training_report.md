@@ -1,8 +1,6 @@
-# Training Report
-
 ## Purpose
 
-This document records the training phase for the therapy-specific LLM post-training project. The project investigates whether therapy-specific post-training can improve the safety, empathy, helpfulness, and boundary awareness of an open-source language model for text-based online mental-health support.
+This document records the training phase for the project. The project investigates whether therapy specific post-training can improve the safety, empathy, helpfulness, and boundary awareness of an open-source language model for text-based online mental health support.
 
 The training phase produced two trained adapters for later locked test-set evaluation:
 
@@ -91,7 +89,7 @@ The response-pair dataset was validated before training. Validation checked for:
 
 The response-pair generation pipeline was revised before training to improve crisis-risk routing, medication-boundary routing, diagnosis-boundary routing, grief prompt handling, cut-off response rejection, and quality filtering for public-dataset prompts.
 
-Manual spot-checking was also used because automatic validation cannot fully assess empathy, appropriateness, or contextual fit.
+Manual spot-checking was also used because automatic validation cannot fully assess empathy, appropriateness and contextual fit.
 
 ---
 
@@ -296,6 +294,8 @@ The DPO validation reward accuracy of 0.9583 indicates that the DPO objective as
 
 These metrics are not treated as proof of safety or clinical appropriateness. Final conclusions are based on locked test-set evaluation, not training metrics alone.
 
+The DPO trainer metadata records `total_flos=0.0`. This is treated as a logging artefact from the DPO/PEFT training path rather than evidence that no training occurred. The run completed 32 optimisation steps, saved a final adapter, produced finite loss values, and logged validation preference metrics.
+
 DPO log files were saved under:
 
 ```text
@@ -319,7 +319,7 @@ The most important finding from smoke testing was:
 Post-training and safety prompting alone were not sufficient to guarantee reliable safety-critical behaviour in this small local model.
 ```
 
-This finding shaped the final evaluation design. The trained models were retained as research prototypes, but not presented as deployment-ready safety solutions.
+This finding shaped the final evaluation design. The trained models were retained as research prototypes and not presented as deployment-ready safety solutions.
 
 ---
 
@@ -368,18 +368,32 @@ docs/error_analysis.md
 
 ## Limitations
 
-The training phase has several limitations.
+The training phase has several named methodological limitations. 
 
-First, training was constrained by local Apple Silicon memory limits. This required CPU float32 training and a smaller LoRA configuration.
+### Local-compute constraint
 
-Second, `max_seq_length=640` may truncate some longer training examples. This was accepted as a compute-driven compromise after token-length analysis and memory testing.
+Training was constrained by local Apple Silicon memory limits. MPS attempts either exceeded available memory or produced unstable values, so the final successful SFT and DPO runs used CPU float32. This made the project reproducible on consumer hardware, but limited the number of model sizes, seeds, and hyperparameter settings that could be explored.
 
-Third, only one seed was trained. Multiple seeds would provide stronger evidence of robustness, but were not feasible within the local compute and time constraints.
+### Single-seed training
 
-Fourth, the base model is small. Absolute response quality is likely limited compared with larger open-source models.
+Only seed 42 was trained. Multiple seeds would provide stronger evidence that the findings are robust to random initialisation, data ordering, and optimisation noise. This was not feasible within the local compute and time budget because SFT and DPO together required several hours on CPU. The final results should therefore be interpreted as a controlled single-seed study rather than a multi-run robustness estimate.
 
-Fifth, training and validation losses are useful for checking optimisation stability, but they do not directly measure safety, empathy, helpfulness, or clinical appropriateness.
+### Model-capacity constraint
 
-Sixth, DPO validation reward accuracy and margin show that the model learned the constructed preference objective, but they do not prove that the model is safe.
+The final model was `Qwen/Qwen2.5-0.5B-Instruct`. This was intentionally selected for local feasibility, but the small model size limits absolute response quality and safety reliability compared with larger open-weight models. The project tests a laptop-scale post-training framework, not the upper bound of what larger clinical or proprietary models could achieve.
 
-Seventh, validation smoke testing and locked evaluation showed that raw post-trained outputs still failed or partially failed safety-sensitive prompts. The project therefore concludes that post-training alone should not be presented as sufficient for safe online mental-health support.
+### Sequence-length compromise
+
+The final SFT maximum sequence length was 640 tokens. Token-length analysis showed that 512 tokens would truncate too many examples, while longer lengths were less reliable under local compute constraints. This compromise may still truncate some longer prompts or responses and should be considered when interpreting low-helpfulness outputs.
+
+### Preference-objective limitation
+
+Training and validation losses, DPO reward accuracy, and DPO reward margin are optimisation diagnostics. They show that the model learned the constructed SFT/DPO objectives, but they do not directly measure clinical appropriateness, therapeutic alliance, or safety-critical reliability. This is why the final conclusions rely on locked test-set scoring rather than training metrics alone.
+
+### DPO logging artefact
+
+The DPO metadata records `total_flos=0.0`. This is a logging artefact rather than a training failure. The DPO run completed 32 optimisation steps, saved the final adapter, and produced finite train/evaluation losses and validation preference metrics.
+
+### Safety limitation
+
+Validation smoke testing and locked evaluation showed that raw post-trained outputs still failed or partially failed safety-sensitive prompts. The deterministic router improved explicitly detected safety cases, but it was conservative and did not catch every ambiguous crisis signal. The project therefore concludes that post-training alone should not be presented as sufficient for safe online mental-health support.

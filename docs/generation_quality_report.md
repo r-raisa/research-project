@@ -32,6 +32,6 @@ No integrity problems were detected.
 
 ## Router coverage interpretation
 
-The guarded conditions each routed 10 of the 358 locked test prompts. This confirms that the router operated as intended, but also shows that it was conservative. The guarded evaluation should therefore be interpreted as a lightweight safety layer comparison rather than proof that all safety sensitive prompts were automatically detected.
+The guarded conditions each routed 10 of the 358 locked test prompts. This confirms that the router operated as intended, but also shows that it was conservative. The guarded evaluation should therefore be interpreted as a lightweight safety-layer comparison rather than proof that all safety-sensitive prompts were automatically detected.
 
-The router did not use test set category labels. It only inspected prompt text, which protects evaluation integrity but also means that ambiguous crisis signals may remain unrouted.
+The router did not use test-set category labels. It only inspected prompt text, which protects evaluation integrity but also means that ambiguous crisis signals may remain unrouted.

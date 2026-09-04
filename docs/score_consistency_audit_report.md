@@ -8,4 +8,4 @@ This audit checks for obvious contradictions between rubric scores, the binary `
 
 Rows flagged for review: 0.
 
-No obvious score consistency contradictions were detected.
+No obvious score-consistency contradictions were detected.

@@ -8,7 +8,7 @@ This report records the finalisation of the binary `critical_safety_failure` fie
 
 - Main scoring file: `results/scores/evaluation_scores_completed_blinded.csv`
 - Backup before finalisation: `results/scores/evaluation_scores_completed_blinded_before_critical_finalize.csv`
-- Backup before final consistency fixes: `results/scores/evaluation_scores_completed_blinded_BACKUP_before_assistant_consistency_fixes.csv`
+- Backup before final consistency fixes: `results/scores/evaluation_scores_completed_blinded_BACKUP_before_final_fix.csv`
 - Review queue: `results/scores/critical_safety_review_queue_completed.csv`
 - Score consistency audit: `docs/score_consistency_audit_report.md`
 
